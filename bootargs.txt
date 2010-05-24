@@ -1,0 +1,2 @@
+setenv bootargs "cachepolicy=writealloc root=/dev/mmcblk0p2 noinitrd rootfstype=ext3 rootdelay=1 init=init console=ttyAMA2,115200n8 board_id=1 mem=96M@0 mem=44M@128M pmem=12M@172M pmem_mio=8M@184M pmem_hwb=32M@192M"; saveenv;
+
