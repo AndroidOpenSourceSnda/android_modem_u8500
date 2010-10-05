@@ -41,5 +41,9 @@ ALL_PREBUILT +=	$(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG
 $(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG : $(LOCAL_PATH)/modemfs/CONF/MCE/MCE.CFG | $(ACP)
 	$(transform-prebuilt-to-target)
 
+ALL_PREBUILT += $(TARGET_ROOT_OUT)/modemfs/PERM/PROT/PPVALUES.DAT
+$(TARGET_ROOT_OUT)/modemfs/PERM/PROT/PPVALUES.DAT : $(LOCAL_PATH)/modemfs/PERM/PROT/PPVALUES.DAT | $(ACP)
+	$(transform-prebuilt-to-target)
+
 endif
 
