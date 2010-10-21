@@ -33,10 +33,6 @@ $(TARGET_ROOT_OUT)/modemfs/CONF/MCE :
 # Copy files that modem depends on to root file system directory
 # so they eventually included in the root file system image.
 
-ALL_PREBUILT += $(TARGET_ROOT_OUT)/modemfs/CONF/PWR_CTRL/VFT.CFG
-$(TARGET_ROOT_OUT)/modemfs/CONF/PWR_CTRL/VFT.CFG : $(LOCAL_PATH)/modemfs/CONF/PWR_CTRL/VFT.CFG | $(ACP)
-	$(transform-prebuilt-to-target)
-
 ALL_PREBUILT +=	$(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG
 $(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG : $(LOCAL_PATH)/modemfs/CONF/MCE/MCE.CFG | $(ACP)
 	$(transform-prebuilt-to-target)
