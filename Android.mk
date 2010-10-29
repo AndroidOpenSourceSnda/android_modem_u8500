@@ -1,45 +1,37 @@
-# Copyright 2010 ST-Ericsson
+#/************************************************************************
+# *                                                                      *
+# *  Copyright (C) 2010 ST-Ericsson                                      *
+# *                                                                      *
+# *  Author: Sebastian RASMUSSEN <sebastian.rasmussen AT stericsson.com> *
+# *                                                                      *
+# ************************************************************************/
 
 ifeq ($(NWM_ENABLE_FEATURE_MODEMFS),true)
 
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-# Create all the necessary empty directories
+include external/genext2fs/Config.mk
 
-ALL_PREBUILT += \
-	$(TARGET_ROOT_OUT)/modemfs/PERM \
-	$(TARGET_ROOT_OUT)/modemfs/PERM/PLAIN \
-	$(TARGET_ROOT_OUT)/modemfs/PERM/PROT \
-	$(TARGET_ROOT_OUT)/modemfs/RFHAL \
-	$(TARGET_ROOT_OUT)/modemfs/CONF \
-	$(TARGET_ROOT_OUT)/modemfs/CONF/PWR_CTRL \
-	$(TARGET_ROOT_OUT)/modemfs/CONF/MCE
-$(TARGET_ROOT_OUT)/modemfs/PERM :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/PERM/PLAIN :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/PERM/PROT :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/RFHAL :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/CONF :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/CONF/PWR_CTRL :
-	mkdir -p $@
-$(TARGET_ROOT_OUT)/modemfs/CONF/MCE :
-	mkdir -p $@
+.PRECIOUS: $(PRODUCT_OUT)/modemfs.img
+ALL_PREBUILT += $(PRODUCT_OUT)/modemfs.img
+$(PRODUCT_OUT)/modemfs.img: $(LOCAL_PATH)/modemfs $(MKEXT2IMG)
+ifeq ($(TARGET_USERIMAGES_USE_EXT2),true)
+	$(hide) $(call build-userimage-ext2-target,$<,$@,modem,$(TARGET_USERIMAGES_USE_EXT3),$(BOARD_MODEMIMAGE_PARTITION_SIZE),$(BOARD_MODEMIMAGE_BLOCK_SIZE),$(BOARD_MODEMIMAGE_INODE_RATIO))
+	$(hide) $(call assert-max-image-size,$@,$(BOARD_MODEMIMAGE_PARTITION_SIZE),raw)
+else
+	$(hide) echo "ERROR: File system image $@ has only been verified to work as an ext2/ext3 file system image!"; false
+endif
 
-# Copy files that modem depends on to root file system directory
-# so they eventually included in the root file system image.
+endif
 
-ALL_PREBUILT +=	$(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG
-$(TARGET_ROOT_OUT)/modemfs/CONF/MCE/MCE.CFG : $(LOCAL_PATH)/modemfs/CONF/MCE/MCE.CFG | $(ACP)
-	$(transform-prebuilt-to-target)
+# Make sure that statements below are included if only modem is being built.
+# It is important that this is below the rule for modemfs.img otherwise
+# there is a conflict between including Android.mk for genext2fs and this
+# modules LOCAL_PATH.
 
-ALL_PREBUILT += $(TARGET_ROOT_OUT)/modemfs/PERM/PROT/PPVALUES.DAT
-$(TARGET_ROOT_OUT)/modemfs/PERM/PROT/PPVALUES.DAT : $(LOCAL_PATH)/modemfs/PERM/PROT/PPVALUES.DAT | $(ACP)
-	$(transform-prebuilt-to-target)
-
+ifneq ($(ONE_SHOT_MAKEFILE),)
+NWM_ENABLE_FEATURE_MODEMFS := true
+include external/genext2fs/Android.mk
 endif
 
