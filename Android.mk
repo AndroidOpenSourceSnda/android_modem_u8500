@@ -16,8 +16,8 @@ include external/genext2fs/Config.mk
 .PRECIOUS: $(PRODUCT_OUT)/modemfs.img
 ALL_PREBUILT += $(PRODUCT_OUT)/modemfs.img
 $(PRODUCT_OUT)/modemfs.img: $(LOCAL_PATH)/modemfs $(MKEXT2IMG)
-ifeq ($(TARGET_USERIMAGES_USE_EXT2),true)
-	$(hide) $(call build-userimage-ext2-target,$<,$@,modem,$(TARGET_USERIMAGES_USE_EXT3),$(BOARD_MODEMIMAGE_PARTITION_SIZE),$(BOARD_MODEMIMAGE_BLOCK_SIZE),$(BOARD_MODEMIMAGE_INODE_RATIO))
+ifeq ($(TARGET_USERIMAGES_USE_EXT4),true)
+	$(hide) $(call build-userimage-ext2-target,$<,$@,modem,$(TARGET_USERIMAGES_USE_EXT4),$(BOARD_MODEMIMAGE_PARTITION_SIZE),$(BOARD_MODEMIMAGE_BLOCK_SIZE),$(BOARD_MODEMIMAGE_INODE_RATIO))
 else
 	$(hide) echo "ERROR: File system image $@ has only been verified to work as an ext2/ext3 file system image!"; false
 endif
