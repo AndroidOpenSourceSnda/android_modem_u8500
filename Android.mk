@@ -25,6 +25,13 @@ endif
 
 endif
 
+# Copies modem images to PRODUCT_OUT/modem_images
+modem_images := $(wildcard $(LOCAL_PATH)/*.fs)
+modem_images += $(wildcard $(LOCAL_PATH)/*_ipl_*)
+
+copy_modem_images := $(foreach modem,$(subst $(LOCAL_PATH),,$(modem_images)),$(LOCAL_PATH)/$(modem):modem_images/$(modem))
+PRODUCT_COPY_FILES += $(copy_modem_images)
+
 # Make sure that statements below are included if only modem is being built.
 # It is important that this is below the rule for modemfs.img otherwise
 # there is a conflict between including Android.mk for genext2fs and this
@@ -34,4 +41,3 @@ ifneq ($(ONE_SHOT_MAKEFILE),)
 NWM_ENABLE_FEATURE_MODEMFS := true
 include external/genext2fs/Android.mk
 endif
-
