@@ -11,17 +11,15 @@ ifeq ($(NWM_ENABLE_FEATURE_MODEMFS),true)
 LOCAL_PATH:= $(call my-dir)
 include $(CLEAR_VARS)
 
-include external/genext2fs/Config.mk
-
 .PRECIOUS: $(PRODUCT_OUT)/modemfs.img
 ALL_PREBUILT += $(PRODUCT_OUT)/modemfs.img
-$(PRODUCT_OUT)/modemfs.img: $(LOCAL_PATH)/modemfs $(MKEXT2IMG)
+ALL_MODULES += $(PRODUCT_OUT)/modemfs.img
+$(PRODUCT_OUT)/modemfs.img: $(LOCAL_PATH)/modemfs $(MKEXT2USERIMG) $(MAKE_EXT4FS)
 ifeq ($(TARGET_USERIMAGES_USE_EXT4),true)
-	$(hide) $(call build-userimage-ext2-target,$<,$@,modem,$(TARGET_USERIMAGES_USE_EXT4),$(BOARD_MODEMIMAGE_PARTITION_SIZE),$(BOARD_MODEMIMAGE_BLOCK_SIZE),$(BOARD_MODEMIMAGE_INODE_RATIO))
+	$(call build-userimage-ext-target,$<,$@,modemfs,ext4,$(BOARD_MODEMIMAGE_PARTITION_SIZE))
 else
-	$(hide) echo "ERROR: File system image $@ has only been verified to work as an ext2/ext3 file system image!"; false
+	$(hide) echo "ERROR: File system image $@ has only been verified to work as an ext4 file system image!"; false
 endif
-
 endif
 
 # Copies modem images to PRODUCT_OUT/modem_images
@@ -30,13 +28,3 @@ modem_images += $(wildcard $(LOCAL_PATH)/*_ipl_*)
 
 copy_modem_images := $(foreach modem,$(subst $(LOCAL_PATH),,$(modem_images)),$(LOCAL_PATH)/$(modem):modem_images/$(modem))
 PRODUCT_COPY_FILES += $(copy_modem_images)
-
-# Make sure that statements below are included if only modem is being built.
-# It is important that this is below the rule for modemfs.img otherwise
-# there is a conflict between including Android.mk for genext2fs and this
-# modules LOCAL_PATH.
-
-ifneq ($(ONE_SHOT_MAKEFILE),)
-NWM_ENABLE_FEATURE_MODEMFS := true
-include external/genext2fs/Android.mk
-endif
