@@ -8,14 +8,14 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            common_dsp_test_isi.h
 
-version:         000.151
+version:         000.154
 
 type:            incl
 
 
 ISI header file for COMMON CDSP Test Interface
 
-Current   ISI Version : 000.151
+Current   ISI Version : 000.154
 Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006, 
                         000.007, 000.008, 000.010, 000.011, 000.012, 000.013, 
                         000.014, 000.015, 000.016, 000.017, 000.018, 000.019, 
@@ -40,7 +40,8 @@ Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006,
                         000.129, 000.130, 000.131, 000.132, 000.133, 000.134, 
                         000.135, 000.136, 000.137, 000.138, 000.139, 000.140, 
                         000.141, 000.142, 000.143, 000.144, 000.145, 000.146, 
-                        000.147, 000.148, 000.149, 000.150, 000.151
+                        000.147, 000.148, 000.149, 000.150, 000.151, 000.152, 
+                        000.153, 000.154
 
 Copyright (c) Nokia Corporation. All rights reserved.
 
@@ -56,7 +57,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION_Z   0
-#define COMMON_DSP_TEST_ISI_VERSION_Y 151
+#define COMMON_DSP_TEST_ISI_VERSION_Y 154
 #endif
 
 #define COMMON_DSP_TEST_ISI_MIN_VERSION(z,y) \
@@ -664,6 +665,8 @@ typedef uint16 C_TEST_TESTER_TOOL_CONST;
 #define C_TEST_CMU200                            0x0001
 /* AGILENT8960 tester */
 #define C_TEST_AGILENT8960                       0x0002
+/* ANRITSU tester */
+#define C_TEST_ANRITSU                           0x0003
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: CTRL_CHANNEL_TYPE - Valid from version 000.148          */
@@ -4235,13 +4238,13 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: C_TEST_SB_GSM_SINGLE_BER_SYNC - Valid from version 000.151    */
+/* Subblock: C_TEST_SB_GSM_SINGLE_BER_SYNC - Versions 000.151 - 000.152    */
 /* ----------------------------------------------------------------------- */
 /* Sub-block to get the synchronisation with the tester and DUT before the
    SBER measurement 
 */
 
-#if ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 151) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0))
+#if ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 151) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) && !((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 152) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0))
 
 typedef struct
     {
@@ -4283,7 +4286,59 @@ typedef struct
 #define SIZE_C_TEST_SB_GSM_SINGLE_BER_SYNC_STR   \
         sizeof(C_TEST_SB_GSM_SINGLE_BER_SYNC_STR)
 
-#endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 151) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
+#endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 151) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) && !((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 152) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Subblock: C_TEST_SB_GSM_SINGLE_BER_SYNC - Valid from version 000.152    */
+/* ----------------------------------------------------------------------- */
+/* Sub-block to get the synchronisation with the tester and DUT before the
+   SBER measurement 
+*/
+
+#if ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 152) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0))
+
+typedef struct
+    {
+    uint16  sb_id;
+    uint16  sb_len;
+    /* (TCH and BCCH are on the same band)
+       Values from the bitmask table INFO_GSM_BAND
+    */
+    uint32  rf_band;
+    /* Values from the constant table C_TEST_TESTER_TOOL */
+    uint16  tester_tool;
+    uint16  arfcn_bcch;
+    /* xxxxxxxx--------  Filler
+       --------xxxxxxxx  Type of generated data
+    */
+    uint16  fill1_data_type;
+    uint16  arfcn_tch;
+    /* Frame number provided by the PC application to indicatethe end of the
+       synchronization period of the tester. Measurements start next frame if
+       the RF HAL sequencer has send the BER measurement command to L1.
+    */
+    uint16  FN_end_of_sync;
+    /* xxxxxxxx--------  Channel Type
+       --------xxxxxxxx  Codec
+    */
+    uint16  chan_type_codec;
+    /* xxxxxxxx--------  Filler
+       --------xxxxxxxx  Time slot pattern
+    */
+    uint16  fill2_time_slot_pat;
+    uint16  coded_mode;   /* TRUE: coded mode, FALSE: uncoded mode */
+    /* Initial RX level for TCH channel
+       For automatic AGC the values have no effect.
+    */
+    RX_LEVEL_STR init_rx_level;
+    uint16  fill3;
+    } C_TEST_SB_GSM_SINGLE_BER_SYNC_STR;
+
+#define SIZE_C_TEST_SB_GSM_SINGLE_BER_SYNC_STR   \
+        sizeof(C_TEST_SB_GSM_SINGLE_BER_SYNC_STR)
+
+#endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 152) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
 
 
 /* ----------------------------------------------------------------------- */
@@ -4315,8 +4370,10 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: C_TEST_SB_WCDMA_SINGLE_BER_SYNC - Valid from version 000.148  */
+/* Subblock: C_TEST_SB_WCDMA_SINGLE_BER_SYNC - Versions 000.148 - 000.153  */
 /* ----------------------------------------------------------------------- */
+
+#if ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 148) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) && !((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 153) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0))
 
 typedef struct
     {
@@ -4346,6 +4403,51 @@ typedef struct
 
 #define SIZE_C_TEST_SB_WCDMA_SINGLE_BER_SYNC_STR   \
         sizeof(C_TEST_SB_WCDMA_SINGLE_BER_SYNC_STR)
+
+#endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 148) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) && !((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 153) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Subblock: C_TEST_SB_WCDMA_SINGLE_BER_SYNC - Valid from version 000.153  */
+/* ----------------------------------------------------------------------- */
+
+#if ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 153) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0))
+
+typedef struct
+    {
+    uint16  sb_id;
+    uint16  sb_len;
+    uint32  rf_band;      /* Values from the bitmask table INFO_WCDMA_BAND */
+    uint16  dl_uarfcn;
+    /* Values from the constant table C_TEST_TESTER_TOOL */
+    uint16  tester_tool;
+    uint16  fill1;
+    /* xxxxxxxx--------  Filler
+       --------xxxxxxxx  Channelization code
+    */
+    uint16  fill1_2_channelization_code;
+    uint32  ul_scrambling_code; /*  Value range <= 2^24 */
+    uint16  pri_scrambling_code; /* Used for the 3GPP synchronization */
+    /* Frame number of end of synchronization phase provided by the Control
+       Unit 
+    */
+    uint16  frame_no;
+    /* xxxxxxxx--------  Filler
+       --------xxxxxxxx  Type of generated data
+    */
+    uint16  fill2_rx_data_type;
+    int16   tx_pwr_level;
+    uint16  fill3;
+    /* xxxxxxxx--------  Filler
+       --------xxxxxxxx  RF RX path (main, diversity)
+    */
+    uint16  fill3_2_rf_rx_path;
+    } C_TEST_SB_WCDMA_SINGLE_BER_SYNC_STR;
+
+#define SIZE_C_TEST_SB_WCDMA_SINGLE_BER_SYNC_STR   \
+        sizeof(C_TEST_SB_WCDMA_SINGLE_BER_SYNC_STR)
+
+#endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 153) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
 
 
 /* ----------------------------------------------------------------------- */
