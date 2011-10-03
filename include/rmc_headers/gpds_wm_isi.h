@@ -8,14 +8,14 @@ Renesas Mobile                                                    CONFIDENTIAL
 
 name:            gpds_wm_isi.h
 
-version:         019.010
+version:         019.012
 
 type:            incl
 
 
 ISI header file for General Packet Data Server
 
-Current   ISI Version : 019.010
+Current   ISI Version : 019.012
 Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000, 
                         011.001, 012.000, 012.001, 012.002, 012.003, 012.004, 
                         012.005, 012.006, 012.007, 012.008, 012.009, 012.010, 
@@ -30,7 +30,7 @@ Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000,
                         017.025, 017.026, 018.000, 018.001, 018.002, 018.003, 
                         018.004, 018.005, 018.006, 018.007, 019.000, 019.001, 
                         019.002, 019.003, 019.004, 019.005, 019.006, 019.007, 
-                        019.008, 019.009, 019.010
+                        019.008, 019.009, 019.010, 019.011, 019.012
 
 Copyright (c) Renesas Mobile Corporation. All rights reserved.
 
@@ -47,7 +47,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION_Z  19
-#define GPDS_ISI_VERSION_Y  10
+#define GPDS_ISI_VERSION_Y  12
 #endif
 
 #define GPDS_ISI_MIN_VERSION(z,y) \
@@ -441,6 +441,18 @@ typedef uint8 GPDS_AOL_CONTEXT_CONST;
 #define GPDS_AOL_CTX_ACTIVE                      0x03
 /* Keep existing always online PDP context mode */
 #define GPDS_AOL_CTX_DEFAULT                     0xFF
+
+/* ----------------------------------------------------------------------- */
+/* Constant Table: GPDS_ICMP_DROP_MODE - Valid from version 019.011        */
+/* ----------------------------------------------------------------------- */
+typedef uint8 GPDS_ICMP_DROP_MODE_CONST;
+
+/* MT ICMP echo request discarding is disabled */
+#define GPDS_ICMP_DROP_MODE_DISABLED             0x01
+/* MT ICMP echo request discarding is enabled */
+#define GPDS_ICMP_DROP_MODE_ENABLED              0x02
+/* Keep existing MT ICMP echo request discarding mode */
+#define GPDS_ICMP_DROP_MODE_KEEP_EXISTING        0x00
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: GPDS_RESOURCE_CONTROL_RESULT - Valid from version 017.025 */
@@ -1960,10 +1972,10 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GPDS_CONFIGURE_REQ - Valid from version 015.001                */
+/* Message: GPDS_CONFIGURE_REQ - Versions 015.001 - 019.011                */
 /* ----------------------------------------------------------------------- */
 
-#if GPDS_ISI_MIN_VERSION(15,1)
+#if GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11)
 
 typedef struct
     {
@@ -1983,7 +1995,35 @@ typedef struct
 
 #define SIZE_GPDS_CONFIGURE_REQ_STR   sizeof(GPDS_CONFIGURE_REQ_STR)
 
-#endif /* GPDS_ISI_MIN_VERSION(15,1) */
+#endif /* GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: GPDS_CONFIGURE_REQ - Valid from version 019.011                */
+/* ----------------------------------------------------------------------- */
+
+#if GPDS_ISI_MIN_VERSION(19,11)
+
+typedef struct
+    {
+    uint8   utid;
+    uint8   msg_id;
+    /* Values from the constant table GPDS_ATTACH_MODE */
+    uint8   attach_mode;
+    /* Values from the constant table GPDS_MT_ACT_MODE */
+    uint8   mt_context_act_mode;
+    /* Values from the constant table GPDS_CLASSC_MODE */
+    uint8   class_c_mode;
+    /* Values from the constant table GPDS_AOL_CONTEXT */
+    uint8   aol_context;
+    /* Values from the constant table GPDS_ICMP_DROP_MODE */
+    uint8   drop_icmp;
+    uint8   pad1;
+    } GPDS_CONFIGURE_REQ_STR;
+
+#define SIZE_GPDS_CONFIGURE_REQ_STR   sizeof(GPDS_CONFIGURE_REQ_STR)
+
+#endif /* GPDS_ISI_MIN_VERSION(19,11) */
 
 
 /* ----------------------------------------------------------------------- */
@@ -2289,10 +2329,10 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GPDS_CONFIGURATION_INFO_RESP - Valid from version 015.001      */
+/* Message: GPDS_CONFIGURATION_INFO_RESP - Versions 015.001 - 019.011      */
 /* ----------------------------------------------------------------------- */
 
-#if GPDS_ISI_MIN_VERSION(15,1)
+#if GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11)
 
 typedef struct
     {
@@ -2313,7 +2353,36 @@ typedef struct
 #define SIZE_GPDS_CONFIGURATION_INFO_RESP_STR   \
         sizeof(GPDS_CONFIGURATION_INFO_RESP_STR)
 
-#endif /* GPDS_ISI_MIN_VERSION(15,1) */
+#endif /* GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: GPDS_CONFIGURATION_INFO_RESP - Valid from version 019.011      */
+/* ----------------------------------------------------------------------- */
+
+#if GPDS_ISI_MIN_VERSION(19,11)
+
+typedef struct
+    {
+    uint8   utid;
+    uint8   msg_id;
+    /* A subset of values from the constant table GPDS_ATTACH_MODE */
+    uint8   attach_mode;
+    /* A subset of values from the constant table GPDS_MT_ACT_MODE */
+    uint8   mt_act_mode;
+    /* A subset of values from the constant table GPDS_CLASSC_MODE */
+    uint8   classc_mode;
+    /* Values from the constant table GPDS_AOL_CONTEXT */
+    uint8   aol_context;
+    /* Values from the constant table GPDS_ICMP_DROP_MODE */
+    uint8   drop_icmp;
+    uint8   pad1;
+    } GPDS_CONFIGURATION_INFO_RESP_STR;
+
+#define SIZE_GPDS_CONFIGURATION_INFO_RESP_STR   \
+        sizeof(GPDS_CONFIGURATION_INFO_RESP_STR)
+
+#endif /* GPDS_ISI_MIN_VERSION(19,11) */
 
 
 /* ----------------------------------------------------------------------- */
@@ -2341,10 +2410,10 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GPDS_CONFIGURATION_INFO_IND - Valid from version 015.001       */
+/* Message: GPDS_CONFIGURATION_INFO_IND - Versions 015.001 - 019.011       */
 /* ----------------------------------------------------------------------- */
 
-#if GPDS_ISI_MIN_VERSION(15,1)
+#if GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11)
 
 typedef struct
     {
@@ -2365,7 +2434,36 @@ typedef struct
 #define SIZE_GPDS_CONFIGURATION_INFO_IND_STR   \
         sizeof(GPDS_CONFIGURATION_INFO_IND_STR)
 
-#endif /* GPDS_ISI_MIN_VERSION(15,1) */
+#endif /* GPDS_ISI_MIN_VERSION(15,1) && !GPDS_ISI_MIN_VERSION(19,11) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: GPDS_CONFIGURATION_INFO_IND - Valid from version 019.011       */
+/* ----------------------------------------------------------------------- */
+
+#if GPDS_ISI_MIN_VERSION(19,11)
+
+typedef struct
+    {
+    uint8   utid;
+    uint8   msg_id;
+    /* A subset of values from the constant table GPDS_ATTACH_MODE */
+    uint8   attach_mode;
+    /* A subset of values from the constant table GPDS_MT_ACT_MODE */
+    uint8   mt_act_mode;
+    /* A subset of values from the constant table GPDS_CLASSC_MODE */
+    uint8   classc_mode;
+    /* Values from the constant table GPDS_AOL_CONTEXT */
+    uint8   aol_context;
+    /* Values from the constant table GPDS_ICMP_DROP_MODE */
+    uint8   drop_icmp;
+    uint8   pad1;
+    } GPDS_CONFIGURATION_INFO_IND_STR;
+
+#define SIZE_GPDS_CONFIGURATION_INFO_IND_STR   \
+        sizeof(GPDS_CONFIGURATION_INFO_IND_STR)
+
+#endif /* GPDS_ISI_MIN_VERSION(19,11) */
 
 
 /* ----------------------------------------------------------------------- */
