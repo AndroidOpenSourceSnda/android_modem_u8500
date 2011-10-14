@@ -8,14 +8,14 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            common_dsp_test_isi.h
 
-version:         000.154
+version:         000.155
 
 type:            incl
 
 
 ISI header file for COMMON CDSP Test Interface
 
-Current   ISI Version : 000.154
+Current   ISI Version : 000.155
 Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006, 
                         000.007, 000.008, 000.010, 000.011, 000.012, 000.013, 
                         000.014, 000.015, 000.016, 000.017, 000.018, 000.019, 
@@ -41,7 +41,7 @@ Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006,
                         000.135, 000.136, 000.137, 000.138, 000.139, 000.140, 
                         000.141, 000.142, 000.143, 000.144, 000.145, 000.146, 
                         000.147, 000.148, 000.149, 000.150, 000.151, 000.152, 
-                        000.153, 000.154
+                        000.153, 000.154, 000.155
 
 Copyright (c) Nokia Corporation. All rights reserved.
 
@@ -57,7 +57,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION_Z   0
-#define COMMON_DSP_TEST_ISI_VERSION_Y 154
+#define COMMON_DSP_TEST_ISI_VERSION_Y 155
 #endif
 
 #define COMMON_DSP_TEST_ISI_MIN_VERSION(z,y) \
@@ -713,6 +713,16 @@ typedef uint16 C_TEST_TESTER_TOOL_CONST;
 #define C_TEST_RUN                               0x02
 
 /* ----------------------------------------------------------------------- */
+/* Bitmask Table: C_TEST_WCDMA_TX_SWEEP_SETUP - Valid from version 000.155 */
+/* ----------------------------------------------------------------------- */
+typedef uint16 C_TEST_WCDMA_TX_SWEEP_SETUP_CONST;
+
+/* max_power limit used */
+#define MAX_POWER_USED                           0x0001  /* ---------------1 */
+/* CW in use */
+#define CW_IN_USE                                0x0002  /* --------------1- */
+
+/* ----------------------------------------------------------------------- */
 /* Message ID's                                                            */
 /* ----------------------------------------------------------------------- */
 
@@ -868,6 +878,7 @@ typedef uint16 C_TEST_TESTER_TOOL_CONST;
 #define C_HAL_RF_SB_TUNING_VALUES_SET_RESP       0x0082
 #define C_HAL_RF_SB_TUNING_VALUES_GET_REQ        0x0083
 #define C_HAL_RF_SB_TUNING_VALUES_GET_RESP       0x0084
+#define C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL     0x00AD
 #define C_TEST_SB_HSPA_MAX_PWR_RED_VALUES        0x0075
 #define C_TEST_SB_LINKO2_FREQ_RESP_CAL_RESULTS   0x0080
 #define C_TEST_SB_RSSI_TUNING                    0x00B5
@@ -1301,6 +1312,24 @@ typedef struct
 #define SIZE_GSM_BER_RES_INFO_STR   sizeof(GSM_BER_RES_INFO_STR)
 
 #endif /* ((COMMON_DSP_TEST_ISI_VERSION_Z == 0 && COMMON_DSP_TEST_ISI_VERSION_Y >= 151) || (COMMON_DSP_TEST_ISI_VERSION_Z > 0)) */
+
+
+/* ----------------------------------------------------------------------- */
+/* Sequence: WCDMA_TX_SWEEP_TEST_CHANNEL - Valid from version 000.155      */
+/* ----------------------------------------------------------------------- */
+/* Info per Channel  */
+
+typedef struct
+    {
+    uint32  band_info;    /* Values from the bitmask table INFO_WCDMA_BAND */
+    uint16  ul_uarfcn;
+    uint16  number_of_steps;
+    /* Power Level for each step */
+    int16   power_level[COMMON_DSP_TEST_ANY_SIZE];
+    } WCDMA_TX_SWEEP_TEST_CHANNEL_STR;
+
+#define SIZE_WCDMA_TX_SWEEP_TEST_CHANNEL_STR   (sizeof(uint32) + \
+        2*sizeof(uint16))
 
 
 /* ----------------------------------------------------------------------- */
@@ -3915,6 +3944,26 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
+/* Subblock: C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL - Valid from version 000.155 */
+/* ----------------------------------------------------------------------- */
+/* Sub-block for WCDMA Tx control parameters. */
+
+typedef struct
+    {
+    uint16  sb_id;
+    uint16  sb_len;
+    uint16  number_of_channels;
+    /* Values from the bitmask table C_TEST_WCDMA_TX_SWEEP_SETUP */
+    uint16  tx_setup;
+    uint32  duration;     /* In microseconds, note the HW limitations */
+    WCDMA_TX_SWEEP_TEST_CHANNEL_STR channel_subblock[COMMON_DSP_TEST_ANY_SIZE];
+    } C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL_STR;
+
+#define SIZE_C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL_STR   (4*sizeof(uint16) + \
+        sizeof(uint32))
+
+
+/* ----------------------------------------------------------------------- */
 /* Subblock: C_TEST_SB_HSPA_MAX_PWR_RED_VALUES - Valid from version 000.100 */
 /* ----------------------------------------------------------------------- */
 /* Sub-block for configuring WCDMA HSPA max power reduction values. Used to
@@ -5554,6 +5603,7 @@ typedef struct
        C_HAL_SB_RF_INFORM
        C_HAL_SB_WCDMA_RX_CONTROL
        C_HAL_SB_WCDMA_TX_CONTROL
+       C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL
     */
     uint16  sb[COMMON_DSP_TEST_ANY_SIZE];
     } C_HAL_RF_TEST_CONTROL_REQ_STR;
