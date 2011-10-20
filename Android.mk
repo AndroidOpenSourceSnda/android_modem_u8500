@@ -9,9 +9,8 @@
 ifeq ($(NWM_ENABLE_FEATURE_MODEMFS),true)
 
 LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
-
 PRIVATE_MODEM_PATH := $(LOCAL_PATH)
+include $(CLEAR_VARS)
 
 TMP_MODEMFS := $(TARGET_OUT_INTERMEDIATES)/tmp_modemfs
 $(shell mkdir -p $(TMP_MODEMFS))
@@ -36,8 +35,10 @@ include $(BUILD_PREBUILT)
 # Copies modem images to PRODUCT_OUT/modem_images
 modem_images := $(wildcard $(PRIVATE_MODEM_PATH)/*.fs)
 modem_images += $(wildcard $(PRIVATE_MODEM_PATH)/*_ipl_*)
+modem_images := $(subst $(PRIVATE_MODEM_PATH),,$(modem_images))
 
-copy_modem_images := $(foreach modem,$(subst $(PRIVATE_MODEM_PATH),,$(modem_images)),$(PRIVATE_MODEM_PATH)/$(modem):modem_images/$(modem))
-PRODUCT_COPY_FILES += $(copy_modem_images)
+$(LOCAL_BUILT_MODULE): $(addprefix $(PRODUCT_OUT)/modem_images, $(modem_images))
+$(PRODUCT_OUT)/modem_images%: $(PRIVATE_MODEM_PATH)% | $(ACP)
+	$(transform-prebuilt-to-target)
 
 endif #NWM_ENABLE_FEATURE_MODEMFS
