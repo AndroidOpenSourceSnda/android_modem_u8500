@@ -8,14 +8,14 @@ RENESAS                                                           CONFIDENTIAL
 
 name:            net_wm_isi.h
 
-version:         017.007
+version:         017.008
 
 type:            incl
 
 
 ISI header file for Modem Network Select Server
 
-Current   ISI Version : 017.007
+Current   ISI Version : 017.008
 Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013, 
                         003.014, 003.015, 003.016, 003.017, 003.018, 003.019, 
                         003.020, 003.021, 004.000, 004.001, 004.002, 004.003, 
@@ -28,9 +28,9 @@ Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013,
                         016.002, 016.003, 016.004, 016.005, 016.006, 016.007, 
                         016.008, 016.009, 016.010, 016.011, 016.012, 017.000, 
                         017.001, 017.002, 017.003, 017.004, 017.005, 017.006, 
-                        017.007
+                        017.007, 017.008
 
-Copyright (c) Renesas Mobile Corporation. All rights reserved.
+Copyright (c) Renesas Corporation. All rights reserved.
 
 
 
@@ -45,7 +45,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION_Z  17
-#define NET_MODEM_ISI_VERSION_Y   7
+#define NET_MODEM_ISI_VERSION_Y   8
 #endif
 
 #define NET_MODEM_ISI_MIN_VERSION(z,y) \
@@ -60,6 +60,8 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #define NET_INVALID_TIME                         0x64
 #define NET_FILL                                 0x00
 #define NET_ALPHA_TAG_LEN                        0x20
+#define NET_MCC_INVALID                          0xFFFF
+#define NET_MNC_INVALID                          0xFFFF
 #define NET_ECID_UCID_UNDEFINED                  0xFFFFFFFF
 #define NET_ECID_CPICH_ECNO_UNDEFINED            0xFF
 #define NET_ECID_CPICH_RSCP_UNDEFINED            (-127)
@@ -878,12 +880,18 @@ typedef uint8 NET_DOMAIN_TYPE_TBL_CONST;
 typedef uint8 NET_REG_STATUS_IND_SEND_MODE_TBL_CONST;
 
 /* Default mode. Message is sent every time some parameter indicated in
-   message changes 
+   message changes. 
 */
 #define NET_MSG_SEND_MODE_SEND_ALL               0x00  /* 00000000 */
-/* Message is sent when registration status changes.  */
+/* Message is sent when registration status (in sub block
+   NET_MODEM_REG_INFO_COMMON ) or CS services (in sub block
+   NET_MODEM_GSM_REG_INFO ) or GPRS services (in sub block
+   NET_MODEM_GSM_REG_INFO ) changes. 
+*/
 #define NET_MSG_SEND_MODE_REG_STATUS_CHANGE      0x01  /* -------1 */
-/* Message is sent when Cell ID and/or LAC changes.  */
+/* Message is sent when Cell ID and/or LAC (in sub block
+   NET_MODEM_GSM_REG_INFO ) changes. 
+*/
 #define NET_MSG_SEND_MODE_CELL_ID_OR_LAC_CHANGE  0x02  /* ------1- */
 
 /* ----------------------------------------------------------------------- */
@@ -1008,7 +1016,13 @@ typedef struct
     {
     uint16  mcc;
     uint16  mnc;
+    /* LAC is invalid in case MCC value is NET_MCC_INVALID and MNC value is
+       NET_MNC_INVALID.
+    */
     uint16  lac;
+    /* Cell ID is invalid in case MCC value is NET_MCC_INVALID and MNC value
+       is NET_MNC_INVALID.
+    */
     uint16  cell_id;
     /* Measured power of the channel. The actual measured power X in dBm is
        derived from this value N by using the formula X = N-110.

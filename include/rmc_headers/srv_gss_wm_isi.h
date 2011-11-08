@@ -1,5 +1,5 @@
 /*
-RENESAS MOBILE                                                    CONFIDENTIAL
+Renesas                                                           CONFIDENTIAL
                   srv_gss_wm_isi.h
                   --------------------------------
                   SW Include Document - ANSI C/C++
@@ -8,22 +8,17 @@ RENESAS MOBILE                                                    CONFIDENTIAL
 
 name:            srv_gss_wm_isi.h
 
-version:         009.004
+version:         009.005
 
 type:            incl
 
 
 ISI header file for GSM Stack Server
 
-Current   ISI Version : 009.004
-Supported ISI Versions: 002.010, 002.011, 002.012, 002.013, 002.014, 002.015, 
-                        002.016, 002.017, 002.018, 003.000, 003.001, 003.002, 
-                        003.003, 003.004, 003.005, 004.000, 004.001, 004.002, 
-                        005.000, 006.000, 007.000, 008.000, 008.001, 008.002, 
-                        008.003, 008.004, 008.005, 009.000, 009.001, 009.002, 
-                        009.003, 009.004
+Current   ISI Version : 009.005
+Supported ISI Versions: 009.001, 009.002, 009.003, 009.004, 009.005
 
-Copyright (c) 2010 Renesas Mobile Corporation. All rights reserved.
+Copyright (c) 2010 Renesas Corporation. All rights reserved.
 
 
 
@@ -38,7 +33,7 @@ Copyright (c) 2010 Renesas Mobile Corporation. All rights reserved.
 #ifndef GSS_ISI_VERSION
 #define GSS_ISI_VERSION
 #define GSS_ISI_VERSION_Z   9
-#define GSS_ISI_VERSION_Y   4
+#define GSS_ISI_VERSION_Y   5
 #endif
 
 #define GSS_ISI_MIN_VERSION(z,y) \
@@ -71,11 +66,6 @@ Copyright (c) 2010 Renesas Mobile Corporation. All rights reserved.
 typedef uint8 GSS_OPERATION_CONST;
 
 #define GSS_CS_STATUS_GET                        0x00
-
-#if !GSS_ISI_MIN_VERSION(9,0)
-#define GSS_CS_TASKS_SUSPEND                     0x01
-#endif /* !GSS_ISI_MIN_VERSION(9,0) */
-
 #define GSS_CS_LOCAL_INFO_GET                    0x03
 #define GSS_POWER_CLASS_CHANGE                   0x04
 #define GSS_BAND_INFO_GET                        0x05
@@ -151,7 +141,7 @@ typedef uint8 GSS_CS_STATE_CONST;
 #define GSS_CS_IDLE                              0x00
 #define GSS_CS_SIGNALLING                        0x01
 #define GSS_CS_CALL                              0x02
-#define GSS_CS_PACKET_DATA                       0x03  /* (from 006.000) */
+#define GSS_CS_PACKET_DATA                       0x03
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: GSS_CS_REGISTRATION_STATUS                              */
@@ -162,56 +152,11 @@ typedef uint8 GSS_CS_STATE_CONST;
 typedef uint8 GSS_CS_REGISTRATION_STATUS_CONST;
 
 #define GSS_CS_STATUS_SERV                       0x80  /* MS in service */
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_NO_SERV_ROAM               0x01
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_NO_SERV                    0x02
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_SERV_ROAM                  0x04
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_SERV_ROAM_BLINK            0x05
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_ALERT                      0x06
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_CONVERSATION               0x07
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_CALL_GOING                 0x08
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_CALL_COMING                0x09
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
 /* MS is camping on CCCH/PCCCH/BCCH channel */
 #define GSS_CS_STATUS_CAMPED_ON_CELL             0x0C
 #define GSS_CS_STATUS_IDLE                       0x0D  /* MS in idle */
 /* Serving cell measurements in progress */
 #define GSS_CS_STATUS_RSSI_MEASURING             0x0E
-
-#if !GSS_ISI_MIN_VERSION(8,0)
-#define GSS_CS_STATUS_PWR_MEASURING              0x0F
-#endif /* !GSS_ISI_MIN_VERSION(8,0) */
-
 /* MS is searching for PSW(FCCH) */
 #define GSS_CS_STATUS_PSW_WAIT                   0x10
 /* MS is searching for SYNC(SCH) */
@@ -234,16 +179,8 @@ typedef uint8 GSS_RAT_INFO_FUNCTIONS_CONST;
 #define GSS_GSM_RAT                              0x01  /* -------1 */
 #define GSS_UMTS_RAT                             0x02  /* ------1- */
 #define GSS_EUTRAN_RAT                           0x04  /* -----1-- */
-
-#if !GSS_ISI_MIN_VERSION(8,2)
-#define GSS_DUAL_RAT                             0x00  /* -------- */
-#endif /* !GSS_ISI_MIN_VERSION(8,2) */
-
-
-#if GSS_ISI_MIN_VERSION(8,2)
+/* GSM and UMTS RATs */
 #define GSS_DUAL_RAT                             0x03  /* ------11 */
-#endif /* GSS_ISI_MIN_VERSION(8,2) */
-
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: TIMING_ADVANCE_STATUS                                   */
@@ -254,7 +191,7 @@ typedef uint8 TIMING_ADVANCE_STATUS_CONST;
 #define GSS_TIMING_ADVANCE_VALID                 0x01
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_UMA_MODE_SELECTION - Valid from version 002.017     */
+/* Constant Table: GSS_UMA_MODE_SELECTION                                  */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_UMA_MODE_SELECTION_CONST;
 
@@ -264,7 +201,7 @@ typedef uint8 GSS_UMA_MODE_SELECTION_CONST;
 #define GSS_UMAN_PREFERRED                       0x03
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_SGW_UNC_IP_ADDRESS - Valid from version 002.018     */
+/* Constant Table: GSS_SGW_UNC_IP_ADDRESS                                  */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_SGW_UNC_IP_ADDRESS_CONST;
 
@@ -273,7 +210,7 @@ typedef uint8 GSS_SGW_UNC_IP_ADDRESS_CONST;
 #define GSS_SRV_IP_ADDR_TYPE_IPv6                0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_HSXPA_USER_SETTING - Valid from version 003.003     */
+/* Constant Table: GSS_HSXPA_USER_SETTING                                  */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_HSXPA_USER_SETTING_CONST;
 
@@ -281,7 +218,7 @@ typedef uint8 GSS_HSXPA_USER_SETTING_CONST;
 #define GSS_HSXPA_ALLOWED                        0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_WRITE_STATUS - Valid from version 003.003           */
+/* Constant Table: GSS_WRITE_STATUS                                        */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_WRITE_STATUS_CONST;
 
@@ -289,7 +226,7 @@ typedef uint8 GSS_WRITE_STATUS_CONST;
 #define GSS_FAIL                                 0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_HSXPA_CAUSE - Valid from version 003.003            */
+/* Constant Table: GSS_HSXPA_CAUSE                                         */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_HSXPA_CAUSE_CONST;
 
@@ -297,7 +234,7 @@ typedef uint8 GSS_HSXPA_CAUSE_CONST;
 #define GSS_HSXPA_DISABLED_VIA_PP                0x01  /* Obsolete */
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_HAC_MODE - Valid from version 006.000               */
+/* Constant Table: GSS_HAC_MODE                                            */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_HAC_MODE_CONST;
 
@@ -305,7 +242,7 @@ typedef uint8 GSS_HAC_MODE_CONST;
 #define GSS_HAC_INACTIVE                         0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_ENV_REQUEST_TYPE - Valid from version 008.003       */
+/* Constant Table: GSS_ENV_REQUEST_TYPE                                    */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_ENV_REQUEST_TYPE_CONST;
 
@@ -317,7 +254,7 @@ typedef uint8 GSS_ENV_REQUEST_TYPE_CONST;
 #define GSS_ENV_INFO_QUERY_ALL                   0x03
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_ENV_INFO_RESP_STATUS - Valid from version 008.003   */
+/* Constant Table: GSS_ENV_INFO_RESP_STATUS                                */
 /* ----------------------------------------------------------------------- */
 typedef uint8 GSS_ENV_INFO_RESP_STATUS_CONST;
 
@@ -326,7 +263,7 @@ typedef uint8 GSS_ENV_INFO_RESP_STATUS_CONST;
 #define GSS_ENV_INFO_FAIL                        0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_USER_ACTIVITY_STATUS - Valid from version 008.003   */
+/* Constant Table: GSS_USER_ACTIVITY_STATUS                                */
 /* ----------------------------------------------------------------------- */
 /* It is up to APE to decide what is considered as active or inactive. */
 typedef uint8 GSS_USER_ACTIVITY_STATUS_CONST;
@@ -336,7 +273,7 @@ typedef uint8 GSS_USER_ACTIVITY_STATUS_CONST;
 #define GSS_ENV_USER_INACTIVE                    0x02
 
 /* ----------------------------------------------------------------------- */
-/* Constant Table: GSS_BATTERY_INFO - Valid from version 008.003           */
+/* Constant Table: GSS_BATTERY_INFO                                        */
 /* ----------------------------------------------------------------------- */
 /* It is up to APE to decide what is considered as battery low. */
 typedef uint8 GSS_BATTERY_INFO_CONST;
@@ -527,7 +464,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_UMA_PREF_MODE_INFO - Valid from version 002.017           */
+/* Subblock: GSS_UMA_PREF_MODE_INFO                                        */
 /* ----------------------------------------------------------------------- */
 /* GERAN/UMA mode selection */
 
@@ -542,7 +479,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_PROV_INFO_SB_IDS - Valid from version 002.018             */
+/* Subblock: GSS_PROV_INFO_SB_IDS                                          */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -555,7 +492,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_SGW_INFO - Valid from version 002.018                     */
+/* Subblock: GSS_SGW_INFO                                                  */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -581,7 +518,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_UNC_INFO - Valid from version 002.018                     */
+/* Subblock: GSS_UNC_INFO                                                  */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -608,7 +545,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_REL_SIGNAL_LEVEL_INFO - Valid from version 005.000        */
+/* Subblock: GSS_REL_SIGNAL_LEVEL_INFO                                     */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -624,7 +561,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_THRESHOLD_INFO - Valid from version 005.000               */
+/* Subblock: GSS_THRESHOLD_INFO                                            */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -639,7 +576,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_ENV_USER_ACTIVITY_INFO - Valid from version 008.003       */
+/* Subblock: GSS_ENV_USER_ACTIVITY_INFO                                    */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -663,7 +600,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Subblock: GSS_ENV_BATTERY_INFO - Valid from version 008.003             */
+/* Subblock: GSS_ENV_BATTERY_INFO                                          */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -786,7 +723,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_SELECTED_RAT_IND - Valid from version 003.004              */
+/* Message: GSS_SELECTED_RAT_IND                                           */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -802,7 +739,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_UMA_PREF_MODE_IND - Valid from version 003.004             */
+/* Message: GSS_UMA_PREF_MODE_IND                                          */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -818,7 +755,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HSXPA_USER_SETTING_WRITE_REQ - Valid from version 003.003  */
+/* Message: GSS_HSXPA_USER_SETTING_WRITE_REQ                               */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -835,7 +772,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HSXPA_USER_SETTING_WRITE_RESP - Valid from version 003.003 */
+/* Message: GSS_HSXPA_USER_SETTING_WRITE_RESP                              */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -852,7 +789,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HSXPA_USER_SETTING_IND - Valid from version 003.003        */
+/* Message: GSS_HSXPA_USER_SETTING_IND                                     */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -869,7 +806,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HSXPA_USER_SETTING_READ_REQ - Valid from version 003.003   */
+/* Message: GSS_HSXPA_USER_SETTING_READ_REQ                                */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -884,7 +821,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HSXPA_USER_SETTING_READ_RESP - Valid from version 003.003  */
+/* Message: GSS_HSXPA_USER_SETTING_READ_RESP                               */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -901,7 +838,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HAC_MODE_WRITE_REQ - Valid from version 006.000            */
+/* Message: GSS_HAC_MODE_WRITE_REQ                                         */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -916,7 +853,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_HAC_MODE_WRITE_RESP - Valid from version 006.000           */
+/* Message: GSS_HAC_MODE_WRITE_RESP                                        */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -932,7 +869,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_ENV_INFO_REQ - Valid from version 008.003                  */
+/* Message: GSS_ENV_INFO_REQ                                               */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -963,7 +900,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_ENV_INFO_RESP - Valid from version 008.003                 */
+/* Message: GSS_ENV_INFO_RESP                                              */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
@@ -984,7 +921,7 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
-/* Message: GSS_ENV_INFO_IND - Valid from version 008.003                  */
+/* Message: GSS_ENV_INFO_IND                                               */
 /* ----------------------------------------------------------------------- */
 
 typedef struct
