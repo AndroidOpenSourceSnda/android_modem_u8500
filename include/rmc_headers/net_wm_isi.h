@@ -8,14 +8,14 @@ RENESAS                                                           CONFIDENTIAL
 
 name:            net_wm_isi.h
 
-version:         017.008
+version:         017.009
 
 type:            incl
 
 
 ISI header file for Modem Network Select Server
 
-Current   ISI Version : 017.008
+Current   ISI Version : 017.009
 Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013, 
                         003.014, 003.015, 003.016, 003.017, 003.018, 003.019, 
                         003.020, 003.021, 004.000, 004.001, 004.002, 004.003, 
@@ -28,7 +28,7 @@ Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013,
                         016.002, 016.003, 016.004, 016.005, 016.006, 016.007, 
                         016.008, 016.009, 016.010, 016.011, 016.012, 017.000, 
                         017.001, 017.002, 017.003, 017.004, 017.005, 017.006, 
-                        017.007, 017.008
+                        017.007, 017.008, 017.009
 
 Copyright (c) Renesas Corporation. All rights reserved.
 
@@ -45,7 +45,7 @@ Copyright (c) Renesas Corporation. All rights reserved.
 #ifndef NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION_Z  17
-#define NET_MODEM_ISI_VERSION_Y   8
+#define NET_MODEM_ISI_VERSION_Y   9
 #endif
 
 #define NET_MODEM_ISI_MIN_VERSION(z,y) \
@@ -585,8 +585,8 @@ typedef uint8 NET_MODEM_GSM_BAND_INFO_TBL_CONST;
 /* ----------------------------------------------------------------------- */
 typedef uint32 NET_GSM_BANDS_INFO_TBL_CONST;
 
-/* All GSM supported bands */
-#define NET_GSM_BAND_ALL_MASK                    0x00000000  /* -------------------------------- */
+/* The band information is either not available or does not matter. */
+#define NET_GSM_NO_BANDS                         0x00000000  /* -------------------------------- */
 /* The GSM 900 band */
 #define NET_GSM_BAND_900_MASK                    0x00000001  /* -------------------------------1 */
 /* The GSM 1800 band */
@@ -601,8 +601,8 @@ typedef uint32 NET_GSM_BANDS_INFO_TBL_CONST;
 /* ----------------------------------------------------------------------- */
 typedef uint32 NET_WCDMA_BANDS_INFO_TBL_CONST;
 
-/* All WCDMA band supported by phone */
-#define NET_WCDMA_FDD_BAND_ALL_MASK              0x00000000  /* -------------------------------- */
+/* The band information is either not available or does not matter. */
+#define NET_WCDMA_NO_BANDS                       0x00000000  /* -------------------------------- */
 /* The WCDMA FDD BAND 1 */
 #define NET_WCDMA_FDD_BAND_1_MASK                0x00000001  /* -------------------------------1 */
 /* The WCDMA FDD BAND 2 */
@@ -992,6 +992,7 @@ typedef uint8 NET_REG_STATUS_IND_SEND_MODE_TBL_CONST;
 #define NET_ROAMING_CONF_INFO                    0x5A
 #define NET_MODEM_DETAILED_REG_INFO              0x5B
 #define NET_REG_STATUS_IND_CONF_INFO             0x5D
+#define NET_DETAILED_BAND_INFO                   0x5F
 
 /* ----------------------------------------------------------------------- */
 /* Sequence: NET_GSM_NMR_LIST_SEQ - Valid from version 009.001             */
@@ -1926,6 +1927,23 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
+/* Subblock: NET_DETAILED_BAND_INFO - Valid from version 017.009           */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8   sub_block_id;
+    uint8   sub_block_length;
+    uint8   pad1;
+    uint8   pad2;
+    /* Values from the bitmask table NET_GSM_BANDS_INFO_TBL */
+    uint32  gsm_band_info;
+    /* Values from the bitmask table NET_WCDMA_BANDS_INFO_TBL */
+    uint32  wcdma_band_info;
+    } tNET_DetailedBandInfo;
+
+
+/* ----------------------------------------------------------------------- */
 /* Message: NET_MODEM_REG_STATUS_GET_REQ - Valid from version 014.000      */
 /* ----------------------------------------------------------------------- */
 
@@ -2008,6 +2026,7 @@ typedef struct
     uint8   mode;
     uint8   sub_block_count;
     /* Subblock list:
+       NET_DETAILED_BAND_INFO
        NET_MODEM_GSM_BAND_INFO
     */
     uint8   sub_blocks[NET_MODEM_ANY_SIZE];

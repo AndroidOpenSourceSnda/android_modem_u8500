@@ -8,15 +8,16 @@ Renesas                                                           CONFIDENTIAL
 
 name:            srv_gss_wm_isi.h
 
-version:         009.005
+version:         009.007
 
 type:            incl
 
 
 ISI header file for GSM Stack Server
 
-Current   ISI Version : 009.005
-Supported ISI Versions: 009.001, 009.002, 009.003, 009.004, 009.005
+Current   ISI Version : 009.007
+Supported ISI Versions: 009.001, 009.002, 009.003, 009.004, 009.005, 009.006, 
+                        009.007
 
 Copyright (c) 2010 Renesas Corporation. All rights reserved.
 
@@ -33,7 +34,7 @@ Copyright (c) 2010 Renesas Corporation. All rights reserved.
 #ifndef GSS_ISI_VERSION
 #define GSS_ISI_VERSION
 #define GSS_ISI_VERSION_Z   9
-#define GSS_ISI_VERSION_Y   5
+#define GSS_ISI_VERSION_Y   7
 #endif
 
 #define GSS_ISI_MIN_VERSION(z,y) \
