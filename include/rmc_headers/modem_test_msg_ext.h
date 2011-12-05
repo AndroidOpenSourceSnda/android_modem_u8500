@@ -1,29 +1,46 @@
 /*
-NOKIA                                                    HIGHLY CONFIDENTIAL
-WM/MeXe Public Interface
-SW include - C99
+NOKIA                                                             CONFIDENTIAL
+                  modem_test_msg_ext.h
+                  --------------------------------
+                  SW Include Document - ANSI C/C++
 
-Version        : 002.009
-Specifications : MSW-<#>-03.7 Test Message Interface Specification, version 2.x
 
-Object (this information is substituted by Synergy/CM):
-    %name:           modem_test_msg_ext.h %
-    %instance:       sa1mexe_1 %
-    %version:        002.009.2 %
-    %date_modified:  Thu Feb 24 13:35:19 2011 %
-    
-Copyright (c) Nokia. This material, including documentation and any related
-computer programs, is protected by copyright controlled by Nokia.
-All rights are reserved. Copying, including reproducing, storing, adapting or
-translating, any or all of this material requires the prior written consent
-of Nokia. This material also contains confidential information, which may not
-be disclosed to others without the prior written consent of Nokia.
 
--------------------------------------------------------------------------------
+name:            modem_test_msg_ext.h
+
+version:         002.010
+
+type:            incl
+
+
+ISI header file for Modem Test Server
+
+Current   ISI Version : 002.010
+Supported ISI Versions: 002.010
+
+Copyright (c) 2010 Nokia Corporation. All rights reserved.
+
+
+
+------------------------------------------------------------------------------
 */
 
 #ifndef _MODEM_TEST_MSG_EXT_H
 #define _MODEM_TEST_MSG_EXT_H
+
+#include "isi_conf.h"
+#include "type_def_wm_isi_if.h"
+
+#ifndef MODEM_TEST_ISI_VERSION
+#define MODEM_TEST_ISI_VERSION
+#define MODEM_TEST_ISI_VERSION_Z   2
+#define MODEM_TEST_ISI_VERSION_Y  10
+#endif
+
+#define MODEM_TEST_ISI_MIN_VERSION(z,y) \
+ ((MODEM_TEST_ISI_VERSION_Z == (z) && MODEM_TEST_ISI_VERSION_Y >= (y)) || \
+  (MODEM_TEST_ISI_VERSION_Z > (z)))
+
 
 /* ----------------------------------------------------------------------- */
 /* Constants                                                               */
@@ -41,7 +58,7 @@ be disclosed to others without the prior written consent of Nokia.
 /* If the modem contains only one CPU, all the tests are executed on a single
    CPU regardless of the test group ID.
 */
-typedef uint16_t MODEM_TEST_GROUP_CONST;
+typedef uint16 MODEM_TEST_GROUP_CONST;
 
 /* Licensee's tests to be executed on the processor that runs the L1 software
 */
@@ -64,7 +81,7 @@ typedef uint16_t MODEM_TEST_GROUP_CONST;
 /* Modem self-test handler IDs for MODEM_TEST_GRP_SELFTEST_L1 and
    MODEM_TEST_GRP_SELFTEST_L23 groups.
 */
-typedef uint16_t MODEM_TEST_ST_HANDLER_ID_CONST;
+typedef uint16 MODEM_TEST_ST_HANDLER_ID_CONST;
 
 /* The self-test always returns MODEM_TEST_PASSED */
 #define MODEM_TEST_ST_DUMMY                      0x0000
@@ -82,7 +99,7 @@ typedef uint16_t MODEM_TEST_ST_HANDLER_ID_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_STATUS                                       */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_STATUS_CONST;
+typedef uint8 MODEM_TEST_STATUS_CONST;
 
 /* Test case is passed */
 #define MODEM_TEST_PASSED                        0x00
@@ -110,7 +127,7 @@ typedef uint8_t MODEM_TEST_STATUS_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_FORCED_SLEEP_MODE                            */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_FORCED_SLEEP_MODE_CONST;
+typedef uint8 MODEM_TEST_FORCED_SLEEP_MODE_CONST;
 
 /* Power-down sleep mode is allowed */
 #define MODEM_TEST_SLEEP_MODE_ALL_ALLOWED        0x00
@@ -131,7 +148,7 @@ typedef uint8_t MODEM_TEST_FORCED_SLEEP_MODE_CONST;
 /* Constant Table: MODEM_TEST_CPU                                          */
 /* ----------------------------------------------------------------------- */
 /* Selection of the affected modem CPU.  */
-typedef uint8_t MODEM_TEST_CPU_CONST;
+typedef uint8 MODEM_TEST_CPU_CONST;
 
 /* Selection affects L23 CPU of a two-processor modem and CPU of a
    single-processor modem
@@ -148,7 +165,7 @@ typedef uint8_t MODEM_TEST_CPU_CONST;
 /* DVFS test mode selection. This selection defines if the CPU or EMIF OPP is
    going to be controlled or if the DVFS normal operation is restored.
 */
-typedef uint8_t MODEM_TEST_DVFS_CTRL_CONST;
+typedef uint8 MODEM_TEST_DVFS_CTRL_CONST;
 
 /* Set DVFS to be modem sw controlled */
 #define MODEM_TEST_DVFS_NORMAL_CTRL              0x00
@@ -159,7 +176,7 @@ typedef uint8_t MODEM_TEST_DVFS_CTRL_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_ACTION_SELECT                                */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_ACTION_SELECT_CONST;
+typedef uint8 MODEM_TEST_ACTION_SELECT_CONST;
 
 #define MODEM_TEST_DISABLE                       0x00  /* - */
 #define MODEM_TEST_ENABLE                        0x01  /* - */
@@ -168,7 +185,7 @@ typedef uint8_t MODEM_TEST_ACTION_SELECT_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_DEBUG_SELECT                                 */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_DEBUG_SELECT_CONST;
+typedef uint8 MODEM_TEST_DEBUG_SELECT_CONST;
 
 /* Core Dump feature */
 #define MODEM_TEST_CORE_DUMP                     0x00
@@ -182,7 +199,7 @@ typedef uint8_t MODEM_TEST_DEBUG_SELECT_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_ACCESS_TYPE                                  */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_ACCESS_TYPE_CONST;
+typedef uint8 MODEM_TEST_ACCESS_TYPE_CONST;
 
 /* Instruction fetched */
 #define MODEM_TEST_INSTRUCTION_FETCH             0x00
@@ -196,7 +213,7 @@ typedef uint8_t MODEM_TEST_ACCESS_TYPE_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_ACCESS_SIZE                                  */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_ACCESS_SIZE_CONST;
+typedef uint8 MODEM_TEST_ACCESS_SIZE_CONST;
 
 /* Byte data or Java instruction */
 #define MODEM_TEST_BYTE                          0x00
@@ -208,7 +225,7 @@ typedef uint8_t MODEM_TEST_ACCESS_SIZE_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_CONTEXT_ID_SEL                               */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_CONTEXT_ID_SEL_CONST;
+typedef uint8 MODEM_TEST_CONTEXT_ID_SEL_CONST;
 
 /* Context ID disabled */
 #define MODEM_TEST_CONTEXT_ID_DISABLE            0x00
@@ -222,7 +239,7 @@ typedef uint8_t MODEM_TEST_CONTEXT_ID_SEL_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_FILTER_SELECTION                             */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_FILTER_SELECTION_CONST;
+typedef uint8 MODEM_TEST_FILTER_SELECTION_CONST;
 
 #define MODEM_TEST_TRACE_FILTER                  0x00  /* Trace filter */
 /* Data trace filter */
@@ -231,7 +248,7 @@ typedef uint8_t MODEM_TEST_FILTER_SELECTION_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_FILTER_TYPE                                  */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_FILTER_TYPE_CONST;
+typedef uint8 MODEM_TEST_FILTER_TYPE_CONST;
 
 /* Include address region */
 #define MODEM_TEST_INCLUDE                       0x00
@@ -241,7 +258,7 @@ typedef uint8_t MODEM_TEST_FILTER_TYPE_CONST;
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MODEM_TEST_WATCHPOINT_OUTPUT                            */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_WATCHPOINT_OUTPUT_CONST;
+typedef uint8 MODEM_TEST_WATCHPOINT_OUTPUT_CONST;
 
 /* Modem reset when  */
 #define MODEM_TEST_WATCHPOINT_RESET              0x00
@@ -251,7 +268,7 @@ typedef uint8_t MODEM_TEST_WATCHPOINT_OUTPUT_CONST;
 /* Constant Table: MODEM_TEST_FT_ENTITY                                    */
 /* ----------------------------------------------------------------------- */
 /* Field test entity selection. */
-typedef uint8_t MODEM_TEST_FT_ENTITY_CONST;
+typedef uint8 MODEM_TEST_FT_ENTITY_CONST;
 
 /* GSM physical layer */
 #define MODEM_TEST_FT_2G_L1                      0x00
@@ -275,7 +292,7 @@ typedef uint8_t MODEM_TEST_FT_ENTITY_CONST;
 /* Constant Table: MODEM_TEST_FTD_FAIL_REASON                              */
 /* ----------------------------------------------------------------------- */
 /* Reason of FTD item fail. */
-typedef uint8_t MODEM_TEST_FTD_FAIL_REASON_CONST;
+typedef uint8 MODEM_TEST_FTD_FAIL_REASON_CONST;
 
 /* FTD item is not supported by selected field test entity */
 #define MODEM_TEST_FTD_ITEM_NOT_SUPPORTED        0x01
@@ -287,7 +304,7 @@ typedef uint8_t MODEM_TEST_FTD_FAIL_REASON_CONST;
 /* Constant Table: MODEM_TEST_FTD_SYSTEM_SWITCH_INFO                       */
 /* ----------------------------------------------------------------------- */
 /* Type of radio access technology switch. */
-typedef uint8_t MODEM_TEST_FTD_SYSTEM_SWITCH_INFO_CONST;
+typedef uint8 MODEM_TEST_FTD_SYSTEM_SWITCH_INFO_CONST;
 
 #define MODEM_TEST_FTD_SWITCH_TO_2G              0x01  /* Switch to 2G */
 #define MODEM_TEST_FTD_SWITCH_TO_3G              0x02  /* Switch to 3G */
@@ -296,7 +313,7 @@ typedef uint8_t MODEM_TEST_FTD_SYSTEM_SWITCH_INFO_CONST;
 /* Constant Table: MODEM_TEST_FT_STATUS                                    */
 /* ----------------------------------------------------------------------- */
 /* Status of field test operation. */
-typedef uint8_t MODEM_TEST_FT_STATUS_CONST;
+typedef uint8 MODEM_TEST_FT_STATUS_CONST;
 
 /* Operation is executed */
 #define MODEM_TEST_FT_OK                         0x00
@@ -306,7 +323,7 @@ typedef uint8_t MODEM_TEST_FT_STATUS_CONST;
 /* ----------------------------------------------------------------------- */
 /* Bitmask Table: MODEM_TEST_ATTR                                          */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_ATTR_CONST;
+typedef uint8 MODEM_TEST_ATTR_CONST;
 
 #define MODEM_TEST_ATTR_NONE                     0x00  /* 00000000 */
 /* Do not send response message */
@@ -315,7 +332,7 @@ typedef uint8_t MODEM_TEST_ATTR_CONST;
 /* ----------------------------------------------------------------------- */
 /* Bitmask Table: MODEM_TEST_DEBUG_PROCESSOR                               */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_DEBUG_PROCESSOR_CONST;
+typedef uint8 MODEM_TEST_DEBUG_PROCESSOR_CONST;
 
 /* L1 processor */
 #define MODEM_TEST_L1                            0x01  /* -------1 */
@@ -327,7 +344,7 @@ typedef uint8_t MODEM_TEST_DEBUG_PROCESSOR_CONST;
 /* ----------------------------------------------------------------------- */
 /* Bitmask Table: MODEM_TEST_ETM_DATA_TRACE                                */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_ETM_DATA_TRACE_CONST;
+typedef uint8 MODEM_TEST_ETM_DATA_TRACE_CONST;
 
 /* Disabled  */
 #define MODEM_TEST_DATA_DISABLE                  0x00  /* 00000000 */
@@ -339,7 +356,7 @@ typedef uint8_t MODEM_TEST_ETM_DATA_TRACE_CONST;
 /* ----------------------------------------------------------------------- */
 /* Bitmask Table: MODEM_TEST_WATCHPOINT_SEL                                */
 /* ----------------------------------------------------------------------- */
-typedef uint8_t MODEM_TEST_WATCHPOINT_SEL_CONST;
+typedef uint8 MODEM_TEST_WATCHPOINT_SEL_CONST;
 
 /* Instruction execution */
 #define MODEM_TEST_INSTRUCTION                   0x01  /* -------1 */
@@ -369,6 +386,7 @@ typedef uint8_t MODEM_TEST_WATCHPOINT_SEL_CONST;
 #define MODEM_TEST_FTD_NTF                       0x8C
 #define MODEM_TEST_FT_CONTROL_REQ                0x8D
 #define MODEM_TEST_FT_CONTROL_RESP               0x8E
+#define MODEM_TEST_RESET_REQ                     0x9A
 
 /* ----------------------------------------------------------------------- */
 /* Subblock ID's                                                           */
@@ -385,7 +403,7 @@ typedef uint8_t MODEM_TEST_WATCHPOINT_SEL_CONST;
 typedef struct
     {
     /* Values from the bitmask table MODEM_TEST_DEBUG_PROCESSOR */
-    uint8_t   processor;
+    uint8   processor;
     } MODEM_TEST_CORE_DUMP_SEQ_STR;
 
 #define SIZE_MODEM_TEST_CORE_DUMP_SEQ_STR   \
@@ -398,23 +416,23 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   sb_id;
-    uint8_t   sb_length;
+    uint8   sb_id;
+    uint8   sb_length;
     /* Values from the constant table MODEM_TEST_FILTER_SELECTION */
-    uint8_t   filter_selection;
+    uint8   filter_selection;
     /* Values from the constant table MODEM_TEST_FILTER_TYPE */
-    uint8_t   filter_type;
-    uint32_t  start_address;
-    uint32_t  end_address;
+    uint8   filter_type;
+    uint32  start_address;
+    uint32  end_address;
     /* Values from the constant table MODEM_TEST_ACCESS_TYPE */
-    uint8_t   access_type;
+    uint8   access_type;
     /* Values from the constant table MODEM_TEST_ACCESS_SIZE */
-    uint8_t   access_size;
-    uint8_t   fillbyte;
+    uint8   access_size;
+    uint8   fillbyte;
     /* Values from the constant table MODEM_TEST_ACTION_SELECT */
-    uint8_t   context_id_sel;
-    uint32_t  context_id;
-    uint32_t  context_id_mask;
+    uint8   context_id_sel;
+    uint32  context_id;
+    uint32  context_id_mask;
     } MODEM_TEST_ETM_FILTER_SB_STR;
 
 #define SIZE_MODEM_TEST_ETM_FILTER_SB_STR   \
@@ -428,22 +446,22 @@ typedef struct
 typedef struct
     {
     /* Values from the bitmask table MODEM_TEST_DEBUG_PROCESSOR */
-    uint8_t   processor;
+    uint8   processor;
     /* Values from the constant table MODEM_TEST_ACTION_SELECT */
-    uint8_t   cycle_accurate;
+    uint8   cycle_accurate;
     /* Values from the bitmask table MODEM_TEST_ETM_DATA_TRACE */
-    uint8_t   data_trace;
+    uint8   data_trace;
     /* Values from the constant table MODEM_TEST_CONTEXT_ID_SEL */
-    uint8_t   context_id_trace;
-    uint8_t   fillbyte[3];
-    uint8_t   sub_block_count;
+    uint8   context_id_trace;
+    uint8   fillbyte[3];
+    uint8   sub_block_count;
     /* Subblock list:
        MODEM_TEST_ETM_FILTER_SB
     */
-    uint8_t   sub_blocks[MODEM_TEST_ANY_SIZE];
+    uint8   sub_blocks[MODEM_TEST_ANY_SIZE];
     } MODEM_TEST_ETM_TRACE_SEQ_STR;
 
-#define SIZE_MODEM_TEST_ETM_TRACE_SEQ_STR   (8*sizeof(uint8_t))
+#define SIZE_MODEM_TEST_ETM_TRACE_SEQ_STR   (8*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -453,17 +471,17 @@ typedef struct
 typedef struct
     {
     /* Values from the bitmask table MODEM_TEST_DEBUG_PROCESSOR */
-    uint8_t   processor;
+    uint8   processor;
     /* Values from the bitmask table MODEM_TEST_WATCHPOINT_SEL */
-    uint8_t   flags;
+    uint8   flags;
     /* Values from the constant table MODEM_TEST_WATCHPOINT_OUTPUT */
-    uint8_t   output;
-    uint8_t   fillbyte;
-    uint32_t  address;
-    uint32_t  address_mask;
-    uint32_t  data_value;
-    uint32_t  data_mask;
-    uint32_t  context_id;
+    uint8   output;
+    uint8   fillbyte;
+    uint32  address;
+    uint32  address_mask;
+    uint32  data_value;
+    uint32  data_mask;
+    uint32  context_id;
     } MODEM_TEST_WATCHPOINT_SEQ_STR;
 
 #define SIZE_MODEM_TEST_WATCHPOINT_SEQ_STR   \
@@ -477,9 +495,9 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
-    uint8_t   data;         /* One-byte data element. */
+    uint16  sb_id;
+    uint8   sb_len;
+    uint8   data;         /* One-byte data element. */
     } COMM_FTD_DATA_BYTE_STR;
 
 #define SIZE_COMM_FTD_DATA_BYTE_STR   sizeof(COMM_FTD_DATA_BYTE_STR)
@@ -492,12 +510,12 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
-    uint8_t   filler1;   /* For future use. The value should always be zero. */
-    uint16_t  data;         /* Two-byte data element. */
-    uint8_t   filler2;   /* For future use. The value should always be zero. */
-    uint8_t   filler3;   /* For future use. The value should always be zero. */
+    uint16  sb_id;
+    uint8   sb_len;
+    uint8   filler1;   /* For future use. The value should always be zero. */
+    uint16  data;         /* Two-byte data element. */
+    uint8   filler2;   /* For future use. The value should always be zero. */
+    uint8   filler3;   /* For future use. The value should always be zero. */
     } COMM_FTD_DATA_WORD_STR;
 
 #define SIZE_COMM_FTD_DATA_WORD_STR   sizeof(COMM_FTD_DATA_WORD_STR)
@@ -510,10 +528,10 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
-    uint8_t   filler1;   /* For future use. The value should always be zero. */
-    uint32_t  data;         /* Four-byte data element. */
+    uint16  sb_id;
+    uint8   sb_len;
+    uint8   filler1;   /* For future use. The value should always be zero. */
+    uint32  data;         /* Four-byte data element. */
     } COMM_FTD_DATA_DWORD_STR;
 
 #define SIZE_COMM_FTD_DATA_DWORD_STR   sizeof(COMM_FTD_DATA_DWORD_STR)
@@ -526,17 +544,17 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
+    uint16  sb_id;
+    uint8   sb_len;
     /* String type and string length bit fields.
        x-------  String type
        -xxxxxxx  String length
     */
-    uint8_t   string_lenght;
+    uint8   string_lenght;
     char    string[COMM_MAX_FTD_STRING_LENGTH];
     } COMM_FTD_DATA_STRING_STR;
 
-#define SIZE_COMM_FTD_DATA_STRING_STR   (sizeof(uint16_t) + 2*sizeof(uint8_t) + \
+#define SIZE_COMM_FTD_DATA_STRING_STR   (sizeof(uint16) + 2*sizeof(uint8) + \
         COMM_MAX_FTD_STRING_LENGTH*sizeof(char))
 
 
@@ -547,14 +565,14 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
-    uint8_t   data_length;
-    uint8_t   data[COMM_MAX_FTD_DATA_LENGTH]; /* Multi-byte data element. */
+    uint16  sb_id;
+    uint8   sb_len;
+    uint8   data_length;
+    uint8   data[COMM_MAX_FTD_DATA_LENGTH]; /* Multi-byte data element. */
     } COMM_FTD_DATA_TABLE_STR;
 
-#define SIZE_COMM_FTD_DATA_TABLE_STR   (sizeof(uint16_t) + \
-        (2 + COMM_MAX_FTD_DATA_LENGTH)*sizeof(uint8_t))
+#define SIZE_COMM_FTD_DATA_TABLE_STR   (sizeof(uint16) + \
+        (2 + COMM_MAX_FTD_DATA_LENGTH)*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -566,13 +584,13 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
-    uint8_t   filler1;   /* For future use. The value should always be zero. */
-    uint16_t  failed_ftd_id; /* ID of failed FTD item. */
+    uint16  sb_id;
+    uint8   sb_len;
+    uint8   filler1;   /* For future use. The value should always be zero. */
+    uint16  failed_ftd_id; /* ID of failed FTD item. */
     /* Values from the constant table MODEM_TEST_FTD_FAIL_REASON */
-    uint8_t   fail_reason;
-    uint8_t   filler2;   /* For future use. The value should always be zero. */
+    uint8   fail_reason;
+    uint8   filler2;   /* For future use. The value should always be zero. */
     } MODEM_TEST_FTD_SB_FAIL_STR;
 
 #define SIZE_MODEM_TEST_FTD_SB_FAIL_STR   sizeof(MODEM_TEST_FTD_SB_FAIL_STR)
@@ -587,10 +605,10 @@ typedef struct
 
 typedef struct
     {
-    uint16_t  sb_id;
-    uint8_t   sb_len;
+    uint16  sb_id;
+    uint8   sb_len;
     /* Values from the constant table MODEM_TEST_FTD_SYSTEM_SWITCH_INFO */
-    uint8_t   system_switch;
+    uint8   system_switch;
     } MODEM_TEST_FTD_SB_SYSTEM_SWITCH_STR;
 
 #define SIZE_MODEM_TEST_FTD_SB_SYSTEM_SWITCH_STR   \
@@ -604,28 +622,28 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
-    uint16_t  group_id;   /* Values from the constant table MODEM_TEST_GROUP */
+    uint8   trans_id;
+    uint8   message_id;
+    uint16  group_id;   /* Values from the constant table MODEM_TEST_GROUP */
     /* ID of the requested test-handler function. The licensee is responsible
        for assigning the test-handlers IDs. 
     */
-    uint16_t  test_id;
+    uint16  test_id;
     /* ID of the requested test case. The licensee is responsible for
        assigning the tests case IDs. 
     */
-    uint16_t  case_ID;
-    uint8_t   attrib;       /* Values from the bitmask table MODEM_TEST_ATTR */
-    uint8_t   fillbyte;
+    uint16  case_ID;
+    uint8   attrib;       /* Values from the bitmask table MODEM_TEST_ATTR */
+    uint8   fill1;
     /* If zero, then input data length N is calculated from the PhoNet
        message length. 
     */
-    uint16_t  inp_data_length;
+    uint16  inp_data_length;
     /* Data to be passed to the test-handler function. */
-    uint8_t   inp_data[MODEM_TEST_ANY_SIZE];
+    uint8   inp_data[MODEM_TEST_ANY_SIZE];
     } t_ModemTest_RunReq;
 
-#define MODEM_TEST_RUN_REQ_LEN   (4*sizeof(uint8_t) + 4*sizeof(uint16_t))
+#define MODEM_TEST_RUN_REQ_LEN   (4*sizeof(uint8) + 4*sizeof(uint16))
 
 
 /* ----------------------------------------------------------------------- */
@@ -635,26 +653,26 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
-    uint16_t  group_id;   /* Values from the constant table MODEM_TEST_GROUP */
+    uint8   trans_id;
+    uint8   message_id;
+    uint16  group_id;   /* Values from the constant table MODEM_TEST_GROUP */
     /* ID of the requested test-handler function. The value is copied from
        the request message. 
     */
-    uint16_t  test_id;
+    uint16  test_id;
     /* ID of the requested test case. The value is copied from the request
        message. 
     */
-    uint16_t  case_ID;
-    uint8_t   fillbyte;
+    uint16  case_ID;
+    uint8   fill1;
     /* A subset of values from the constant table MODEM_TEST_STATUS */
-    uint8_t   status;
-    uint16_t  out_data_length;
+    uint8   status;
+    uint16  out_data_length;
     /* Data returned by the test-handler function.  */
-    uint8_t   out_data[MODEM_TEST_ANY_SIZE];
+    uint8   out_data[MODEM_TEST_ANY_SIZE];
     } t_ModemTest_RunResp;
 
-#define MODEM_TEST_RUN_RESP_LEN   (4*sizeof(uint8_t) + 4*sizeof(uint16_t))
+#define MODEM_TEST_RUN_RESP_LEN   (4*sizeof(uint8) + 4*sizeof(uint16))
 
 
 /* ----------------------------------------------------------------------- */
@@ -670,11 +688,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FORCED_SLEEP_MODE */
-    uint8_t   mode;
-    uint8_t   cpu;          /* Values from the constant table MODEM_TEST_CPU */
+    uint8   mode;
+    uint8   cpu;          /* Values from the constant table MODEM_TEST_CPU */
     } t_ModemTest_ForcedSleepModeSetReq;
 
 #define MODEM_TEST_FORCED_SLEEP_MODE_SET_REQ_LEN   \
@@ -687,11 +705,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* A subset of values from the constant table MODEM_TEST_STATUS */
-    uint8_t   status;
-    uint8_t   fillbyte;
+    uint8   status;
+    uint8   fillbyte;
     } t_ModemTest_ForcedSleepModeSetResp;
 
 #define MODEM_TEST_FORCED_SLEEP_MODE_SET_RESP_LEN   \
@@ -711,11 +729,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FORCED_SLEEP_MODE */
-    uint8_t   mode;
-    uint8_t   cpu;          /* Values from the constant table MODEM_TEST_CPU */
+    uint8   mode;
+    uint8   cpu;          /* Values from the constant table MODEM_TEST_CPU */
     } t_ModemTest_SleepTestReq;
 
 #define MODEM_TEST_SLEEP_TEST_MODE_SET_REQ_LEN   \
@@ -728,11 +746,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* A subset of values from the constant table MODEM_TEST_STATUS */
-    uint8_t   status;
-    uint8_t   fillbyte;
+    uint8   status;
+    uint8   fillbyte;
     } t_ModemTest_SleepTestResp;
 
 #define MODEM_TEST_SLEEP_TEST_MODE_SET_RESP_LEN   \
@@ -751,13 +769,13 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
-    uint8_t   ctrl;   /* Values from the constant table MODEM_TEST_DVFS_CTRL */
+    uint8   trans_id;
+    uint8   message_id;
+    uint8   ctrl;   /* Values from the constant table MODEM_TEST_DVFS_CTRL */
     /* CPU or EMIF DVFS OPP. If the DVFS Control is set to
        MODEM_TEST_DVFS_NORMAL_CTRL the given OPP value is ignored.
     */
-    uint8_t   opp;
+    uint8   opp;
     } t_ModemTest_ForcedDVFSOPPReq;
 
 #define MODEM_TEST_DVFS_TEST_MODE_SET_REQ_LEN   \
@@ -770,11 +788,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* A subset of values from the constant table MODEM_TEST_STATUS */
-    uint8_t   status;
-    uint8_t   selected_opp; /* Closest supported and selected DVFS OPP */
+    uint8   status;
+    uint8   selected_opp; /* Closest supported and selected DVFS OPP */
     } t_ModemTest_ForcedDVFSOPPResp;
 
 #define MODEM_TEST_DVFS_TEST_MODE_SET_RESP_LEN   \
@@ -791,15 +809,15 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_DEBUG_SELECT */
-    uint8_t   selection;
+    uint8   selection;
     /* Values from the constant table MODEM_TEST_ACTION_SELECT */
-    uint8_t   action;
+    uint8   action;
     } t_ModemTest_DebugCtrlReq;
 
-#define MODEM_TEST_DEBUG_CONTROL_REQ_LEN   (4*sizeof(uint8_t))
+#define MODEM_TEST_DEBUG_CONTROL_REQ_LEN   (4*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -808,11 +826,11 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* A subset of values from the constant table MODEM_TEST_STATUS */
-    uint8_t   status;
-    uint8_t   fillbyte;
+    uint8   status;
+    uint8   fillbyte;
     } t_ModemTest_DebugCtrlResp;
 
 #define MODEM_TEST_DEBUG_CONTROL_RESP_LEN   sizeof(t_ModemTest_DebugCtrlResp)
@@ -825,22 +843,22 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FT_ENTITY */
-    uint8_t   ftd_entity;
+    uint8   ftd_entity;
     /* If zero then all FTD items of selected field test entity are
        deactivated.
     */
-    uint8_t   nbr_of_subblocks;
+    uint8   nbr_of_subblocks;
     /* Listed FTD items are activated. All not listed FTD items are
        deactivated. Possible FTD ID values are specified for every field test
        item in a separate document. 
     */
-    uint16_t  ftd_id[MODEM_TEST_ANY_SIZE];
+    uint16  ftd_id[MODEM_TEST_ANY_SIZE];
     } t_ModemTest_FtdReq;
 
-#define MODEM_TEST_FTD_REQ_LEN   (4*sizeof(uint8_t))
+#define MODEM_TEST_FTD_REQ_LEN   (4*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -850,14 +868,14 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FT_ENTITY */
-    uint8_t   ftd_entity;
-    uint8_t   status; /* Values from the constant table MODEM_TEST_FT_STATUS */
+    uint8   ftd_entity;
+    uint8   status; /* Values from the constant table MODEM_TEST_FT_STATUS */
     /* For future use. The value should always be zero. */
-    uint8_t   filler1[3];
-    uint8_t   nbr_of_subblocks;
+    uint8   filler1[3];
+    uint8   nbr_of_subblocks;
     /* FTD sub blocks. Possible sub blocks formats are defined by
        COMM_FTD_DATA_* templates. Correspondence of FTD ID to the template is
        specified for every field test item in a separate document. Optionally
@@ -868,7 +886,7 @@ typedef struct
     */
     } t_ModemTest_FtdResp;
 
-#define MODEM_TEST_FTD_RESP_LEN   (8*sizeof(uint8_t))
+#define MODEM_TEST_FTD_RESP_LEN   (8*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -878,14 +896,14 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FT_ENTITY */
-    uint8_t   ftd_entity;
-    uint8_t   filler1;   /* For future use. The value should always be zero. */
+    uint8   ftd_entity;
+    uint8   filler1;   /* For future use. The value should always be zero. */
     /* For future use. The value should always be zero. */
-    uint8_t   filler2[3];
-    uint8_t   nbr_of_subblocks;
+    uint8   filler2[3];
+    uint8   nbr_of_subblocks;
     /* FTD sub blocks. Possible sub blocks formats are defined by
        COMM_FTD_DATA_* templates. Correspondence of FTD ID to the template is
        specified for every field test item in a separate document. Optionally
@@ -896,7 +914,7 @@ typedef struct
     */
     } t_ModemTest_FtdNtf;
 
-#define MODEM_TEST_FTD_NTF_LEN   (8*sizeof(uint8_t))
+#define MODEM_TEST_FTD_NTF_LEN   (8*sizeof(uint8))
 
 
 /* ----------------------------------------------------------------------- */
@@ -906,15 +924,15 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FT_ENTITY */
-    uint8_t   ftd_entity;
-    uint8_t   filler1;   /* For future use. The value should always be zero. */
-    uint16_t  ftd_command_item; /* Field test control selection */
+    uint8   ftd_entity;
+    uint8   filler1;   /* For future use. The value should always be zero. */
+    uint16  ftd_command_item; /* Field test control selection */
     /* For future use. The value should always be zero. */
-    uint8_t   filler2[2];
-    uint32_t  ftd_command_data; /* Four-byte value. */
+    uint8   filler2[2];
+    uint32  ftd_command_data; /* Four-byte value. */
     } t_ModemTest_FtControlReq;
 
 #define MODEM_TEST_FT_CONTROL_REQ_LEN   sizeof(t_ModemTest_FtControlReq)
@@ -927,14 +945,30 @@ typedef struct
 
 typedef struct
     {
-    uint8_t   trans_id;
-    uint8_t   message_id;
+    uint8   trans_id;
+    uint8   message_id;
     /* Values from the constant table MODEM_TEST_FT_ENTITY */
-    uint8_t   ftd_entity;
-    uint8_t   status; /* Values from the constant table MODEM_TEST_FT_STATUS */
-    } t_ModemTest_FtdControlResp;
+    uint8   ftd_entity;
+    uint8   status; /* Values from the constant table MODEM_TEST_FT_STATUS */
+    } t_ModemTest_FtControlResp;
 
 #define MODEM_TEST_FT_CONTROL_RESP_LEN   sizeof(t_ModemTest_FtControlResp)
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: MODEM_TEST_RESET_REQ                                           */
+/* ----------------------------------------------------------------------- */
+/* This message is used to generate modem reset. */
+
+typedef struct
+    {
+    uint8   trans_id;
+    uint8   message_id;
+    uint8   cpu;          /* Values from the constant table MODEM_TEST_CPU */
+    uint8   filler1[3];
+    } t_ModemTest_ResetReq;
+
+#define MODEM_TEST_RESET_REQ_LEN   sizeof(t_ModemTest_ResetReq)
 
 
 

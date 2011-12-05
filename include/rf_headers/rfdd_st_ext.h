@@ -285,15 +285,13 @@ typedef uint16 ST_CDSP_RF_SUPPLY_TEST_ERR2_LINKO_CONST;
 #define ST_DIV_VFE                               0x0040  /* ---------1------ */
 /* Diversity RFIC: VLO_RX regulator */
 #define ST_DIV_VLO_RX                            0x0080  /* --------1------- */
-/* Diversity RFIC: VDP_RX regulator */
-#define ST_DIV_VDP_RX                            0x0100  /* -------1-------- */
-/* + CAP_2979_001 : ST_VXO error defined in error3 for Calli3.0, no change for calli2.1 and before */
-/* Main RFIC: VR1 voltage */
-#define ST_VXO_Calli2_1                          0x1000  /* ---1------------ */
-/* - CAP_2979_001 */
+/* Diversity RFIC: VXO voltage */
+/* + FIDO ER353660: Diversity RF Supply error code issue */
+#define ST_DIV_VXO                               0x0100  /* -------1-------- */
+/* - FIDO ER353660: Diversity RF Supply error code issue */
 
 /* ----------------------------------------------------------------------- */
-/* Bitmask Table: ST_CDSP_RF_SUPPLY_TEST_ERR3_LINKO                        */
+/* Bit mask Table: ST_CDSP_RF_SUPPLY_TEST_ERR3_LINKO                       */
 /* ----------------------------------------------------------------------- */
 typedef uint16 ST_CDSP_RF_SUPPLY_TEST_ERR3_LINKO_CONST;
 
@@ -309,15 +307,8 @@ typedef uint16 ST_CDSP_RF_SUPPLY_TEST_ERR3_LINKO_CONST;
 #define ST_VFE                                   0x0010  /* -----------1---- */
 /* Main RFIC: VLO_RX regulator */
 #define ST_VLO_RX                                0x0020  /* ----------1----- */
-/* + CAP_2979_001 : ST_VXO error defined in error3 */
-#if 1 /* to be removed when Calli2.1 (and before) code will be cleaned */
-/* Main RFIC: VDP_RX regulator */
-#define ST_VDP_RX                                0x0040  /* ---------1------ */
-#endif
 /* Main RFIC: VR1 voltage */
 #define ST_VXO                                   0x0040  /* ---------1------ */
-/* - CAP_2979_001 */
-
 /* Main RFIC: VLPF_TX regulator */
 #define ST_VLPF_TX                               0x0080  /* --------1------- */
 /* Main RFIC: VOPA regulator */
@@ -397,7 +388,7 @@ typedef uint16 ST_WCDMA_TX_POWER_TEST_ERR_CONST;
 
 
 /*    5.3 Data Types    */
-  
+
 /* ----------------------------------------------------------------------- */
 /* Sequence: ST_CDSP_RF_SUPPLY_TEST_LINKO                                  */
 /* ----------------------------------------------------------------------- */
@@ -575,7 +566,7 @@ typedef struct
     /* Values from the bitmask table ST_WCDMA_TX_POWER_TEST_ERR */
     /* uint16  error_code2;*/
     /*uint16  txc_adc2;*/ /* Measured power Value */
-	
+
     } ST_WCDMA_TX_POWER_TEST_STR;
 
 #define SIZE_ST_WCDMA_TX_POWER_TEST_STR   (sizeof(ST_WCDMA_TX_POWER_TEST_STR)/sizeof(int16))
