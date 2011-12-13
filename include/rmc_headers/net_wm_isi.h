@@ -8,14 +8,14 @@ RENESAS                                                           CONFIDENTIAL
 
 name:            net_wm_isi.h
 
-version:         017.009
+version:         017.010
 
 type:            incl
 
 
 ISI header file for Modem Network Select Server
 
-Current   ISI Version : 017.009
+Current   ISI Version : 017.010
 Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013, 
                         003.014, 003.015, 003.016, 003.017, 003.018, 003.019, 
                         003.020, 003.021, 004.000, 004.001, 004.002, 004.003, 
@@ -28,7 +28,7 @@ Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013,
                         016.002, 016.003, 016.004, 016.005, 016.006, 016.007, 
                         016.008, 016.009, 016.010, 016.011, 016.012, 017.000, 
                         017.001, 017.002, 017.003, 017.004, 017.005, 017.006, 
-                        017.007, 017.008, 017.009
+                        017.007, 017.008, 017.009, 017.010
 
 Copyright (c) Renesas Corporation. All rights reserved.
 
@@ -45,7 +45,7 @@ Copyright (c) Renesas Corporation. All rights reserved.
 #ifndef NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION_Z  17
-#define NET_MODEM_ISI_VERSION_Y   9
+#define NET_MODEM_ISI_VERSION_Y  10
 #endif
 
 #define NET_MODEM_ISI_MIN_VERSION(z,y) \
@@ -258,6 +258,10 @@ typedef uint8 NET_SERVICE_STATUS_CONST;
 #define NET_LIMITED_SERVICE                      0x01
 /* CS is not in service. Other cell informations are not valid */
 #define NET_NO_COVERAGE                          0x02
+/* CS is in limited_service because network selection can not be done for
+   some reason (e.g. SIM data is not available) 
+*/
+#define NET_LIMITED_SERVICE_WAITING              0x03
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: NET_MODEM_NETWORK_SELECTION_MODE                        */
@@ -1279,8 +1283,8 @@ typedef struct
 /* ----------------------------------------------------------------------- */
 /* This sub block carries the same information as the sub block
    NET_MODEM_GSM_REG_INFO, but this is added to NET_MODEM_REG_STATUS_IND
-   message only when phone is in 3G connected mode. This sub block carries
-   the valid cell information when phone is in 3G connected mode. 
+   message only when phone is in connected mode. This sub block carries the
+   valid cell information when phone is in connected mode. 
 */
 
 typedef struct
@@ -1319,7 +1323,7 @@ typedef struct
        camped_in_hplmn is set to FALSE.
     */
     uint8   camped_in_hplmn;
-    uint8   pad1;
+    uint8   rat_name;     /* Values from the constant table NET_RAT_NAME */
     } tNET_SubNetModemCurrentCellInfo;
 
 
