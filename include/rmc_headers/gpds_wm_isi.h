@@ -8,14 +8,14 @@ Renesas Mobile                                                    CONFIDENTIAL
 
 name:            gpds_wm_isi.h
 
-version:         019.012
+version:         019.013
 
 type:            incl
 
 
 ISI header file for General Packet Data Server
 
-Current   ISI Version : 019.012
+Current   ISI Version : 019.013
 Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000, 
                         011.001, 012.000, 012.001, 012.002, 012.003, 012.004, 
                         012.005, 012.006, 012.007, 012.008, 012.009, 012.010, 
@@ -30,7 +30,7 @@ Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000,
                         017.025, 017.026, 018.000, 018.001, 018.002, 018.003, 
                         018.004, 018.005, 018.006, 018.007, 019.000, 019.001, 
                         019.002, 019.003, 019.004, 019.005, 019.006, 019.007, 
-                        019.008, 019.009, 019.010, 019.011, 019.012
+                        019.008, 019.009, 019.010, 019.011, 019.012, 019.013
 
 Copyright (c) Renesas Mobile Corporation. All rights reserved.
 
@@ -47,7 +47,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION_Z  19
-#define GPDS_ISI_VERSION_Y  12
+#define GPDS_ISI_VERSION_Y  13
 #endif
 
 #define GPDS_ISI_MIN_VERSION(z,y) \
@@ -280,6 +280,9 @@ typedef uint8 GPDS_CAUSE_CONST;
 #define GPDS_CAUSE_FILTER_SYNTAX_ERROR           0x2D
 #define GPDS_CAUSE_CONT_WITHOUT_TFT              0x2E
 #define GPDS_CAUSE_MULTICAST_MEMBERSHIP_TIMEOUT  0x2F
+#define GPDS_CAUSE_IPV4_ONLY_PDP                 0x32
+#define GPDS_CAUSE_IPV6_ONLY_PDP                 0x33
+#define GPDS_CAUSE_SINGLE_IPV_PDP                0x34
 #define GPDS_CAUSE_INVALID_MANDATORY_INFO        0x60
 #define GPDS_CAUSE_MSG_TYPE_NON_EXISTENTOR_NOT_IMPLTD 0x61
 #define GPDS_CAUSE_MSG_TYPE_NOT_COMPATIBLE_WITH_PROTOCOL_STATE 0x62
