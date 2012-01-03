@@ -3,14 +3,14 @@ NOKIA                                                    HIGHLY CONFIDENTIAL
 WM/MeXe Public Interface
 SW include - C99
 
-Version        : 002.009
+Version        : 002.010
 Specifications : MSW-<#>-03.7 Test Message Interface Specification, version 2.x
 
 Object (this information is substituted by Synergy/CM):
     %name:           modem_test_msg_ext.h %
     %instance:       sa1mexe_1 %
-    %version:        ou1rme#002.010.1 %
-    %date_modified:  Thu Dec  1 08:28:41 2011 %
+    %version:        ou1rme#002.010.2 %
+    %date_modified:  Wed Dec 21 12:33:07 2011 %
     
 Copyright (c) Nokia. This material, including documentation and any related
 computer programs, is protected by copyright controlled by Nokia.
@@ -369,6 +369,7 @@ typedef uint8_t MODEM_TEST_WATCHPOINT_SEL_CONST;
 #define MODEM_TEST_FTD_NTF                       0x8C
 #define MODEM_TEST_FT_CONTROL_REQ                0x8D
 #define MODEM_TEST_FT_CONTROL_RESP               0x8E
+#define MODEM_TEST_RESET_REQ                     0x9A
 
 /* ----------------------------------------------------------------------- */
 /* Subblock ID's                                                           */
