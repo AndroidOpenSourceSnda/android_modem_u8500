@@ -8,7 +8,7 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            monitor_server_modem_msg_ext.h
 
-version:         001.004
+version:         001.005
 
 type:            incl
 
@@ -176,6 +176,18 @@ typedef uint8_t MON_TRACE_TRIGGER_ACTION_SYMBOLS_CONST;
 #define TRIGGER_STOP                             0x01
 
 /* ----------------------------------------------------------------------- */
+/* Constant Table: MON_TRACE_BUFFER_MARKER_SYMBOLS                         */
+/* ----------------------------------------------------------------------- */
+typedef uint8_t MON_TRACE_BUFFER_MARKER_SYMBOLS_CONST;
+
+/* Start trace */
+#define MARKER_START                             0x00
+/* End trace */
+#define MARKER_END                               0x01
+/* Marker message received */
+#define MARKER_MESSAGE                           0x02
+
+/* ----------------------------------------------------------------------- */
 /* Message ID's                                                            */
 /* ----------------------------------------------------------------------- */
 
@@ -198,6 +210,8 @@ typedef uint8_t MON_TRACE_TRIGGER_ACTION_SYMBOLS_CONST;
 #define MON_TRACE_TRIGGER_RESP                   0xBB
 #define MON_TRACE_IDS_ACTIVATE_ROUTE_REQ         0xBC
 #define MON_TRACE_IDS_ACTIVATE_ROUTE_RESP        0xBD
+#define MON_TRACE_BUFFER_MARKER_REQ              0xBE
+#define MON_TRACE_BUFFER_MARKER_RESP             0xBF
 
 /* ----------------------------------------------------------------------- */
 /* Subblock ID's                                                           */
@@ -682,6 +696,40 @@ typedef struct
 #define SIZE_MON_TRACE_IDS_ACTIVATE_ROUTE_RESP_STR   \
         sizeof(MON_TRACE_IDS_ACTIVATE_ROUTE_RESP_STR)
 
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFER_MARKER_REQ                                    */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    uint8_t   fill1;
+    /* Values from the constant table MON_TRACE_BUFFER_MARKER_SYMBOLS */
+    uint8_t   action;
+    uint8_t   timestamp[8];
+    } MON_TRACE_BUFFER_MARKER_REQ_STR;
+
+#define SIZE_MON_TRACE_BUFFER_MARKER_REQ_STR   \
+        sizeof(MON_TRACE_BUFFER_MARKER_REQ_STR)
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFER_MARKER_RESP                                   */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    uint8_t   fill1;
+    /* A subset of values from the constant table MON_RESPONSE_SYMBOLS */
+    uint8_t   status;
+    } MON_TRACE_BUFFER_MARKER_RESP_STR;
+
+#define SIZE_MON_TRACE_BUFFER_MARKER_RESP_STR   \
+        sizeof(MON_TRACE_BUFFER_MARKER_RESP_STR)
 
 
 
