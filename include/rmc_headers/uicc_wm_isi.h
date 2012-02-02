@@ -8,16 +8,16 @@ RENESAS MOBILE                                                    CONFIDENTIAL
 
 name:            uicc_wm_isi.h
 
-version:         006.002
+version:         006.003
 
 type:            incl
 
 
 ISI header file for UICC Server
 
-Current   ISI Version : 006.002
+Current   ISI Version : 006.003
 Supported ISI Versions: 001.000, 002.000, 002.001, 003.000, 004.000, 004.001, 
-                        004.002, 005.000, 006.000, 006.001, 006.002
+                        004.002, 005.000, 006.000, 006.001, 006.002, 006.003
 
 Copyright (c) Renesas Mobile Corporation. All rights reserved.
 
@@ -34,7 +34,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef UICC_ISI_VERSION
 #define UICC_ISI_VERSION
 #define UICC_ISI_VERSION_Z   6
-#define UICC_ISI_VERSION_Y   2
+#define UICC_ISI_VERSION_Y   3
 #endif
 
 #define UICC_ISI_MIN_VERSION(z,y) \
@@ -526,6 +526,17 @@ typedef uint8 UICC_POWER_STATUS_TABLE_CONST;
 #define UICC_POWER_STATUS_ON                     0x01
 
 /* ----------------------------------------------------------------------- */
+/* Constant Table: UICC_CARD_REMOVE_CAUSE_TABLE - Valid from version 006.003 */
+/* ----------------------------------------------------------------------- */
+typedef uint8 UICC_CARD_REMOVE_CAUSE_TABLE_CONST;
+
+/* Remove cause not available */
+#define UICC_CARD_REMOVE_CAUSE_NOT_AVAILABLE     0x00
+/* Card removed due to presence detection failure. Card recovery in progress.
+*/
+#define UICC_CARD_REMOVE_CAUSE_PRESENCE_DETECTION 0x01
+
+/* ----------------------------------------------------------------------- */
 /* Message ID's                                                            */
 /* ----------------------------------------------------------------------- */
 
@@ -610,6 +621,7 @@ typedef uint8 UICC_POWER_STATUS_TABLE_CONST;
 #define UICC_SB_RESP_INFO                        0x0028
 #define UICC_SB_APDU_SAP_CONFIG                  0x0029
 #define UICC_SB_POWER_STATUS                     0x002A
+#define UICC_SB_CARD_REMOVE_CAUSE                0x002B
 
 /* ----------------------------------------------------------------------- */
 /* Subblock: UICC_SB_SHUT_DOWN_CONFIG - Versions 004.000 - 005.000         */
@@ -1528,6 +1540,24 @@ typedef struct
     } UICC_SB_POWER_STATUS_STR;
 
 #define SIZE_UICC_SB_POWER_STATUS_STR   sizeof(UICC_SB_POWER_STATUS_STR)
+
+
+/* ----------------------------------------------------------------------- */
+/* Subblock: UICC_SB_CARD_REMOVE_CAUSE - Valid from version 006.003        */
+/* ----------------------------------------------------------------------- */
+/* Subblock for Card Indication */
+
+typedef struct
+    {
+    uint16  sb_id;
+    uint16  sb_len;
+    uint8   fill1[3];
+    /* Values from the constant table UICC_CARD_REMOVE_CAUSE_TABLE */
+    uint8   remove_cause;
+    } UICC_SB_CARD_REMOVE_CAUSE_STR;
+
+#define SIZE_UICC_SB_CARD_REMOVE_CAUSE_STR   \
+        sizeof(UICC_SB_CARD_REMOVE_CAUSE_STR)
 
 
 /* ----------------------------------------------------------------------- */
@@ -2511,6 +2541,7 @@ typedef struct
     /* Subblock list:
        UICC_SB_CARD_INFO
        UICC_SB_CARD_REJECT_CAUSE
+       UICC_SB_CARD_REMOVE_CAUSE
     */
     uint8   sub_blocks[UICC_ANY_SIZE];
     } UICC_CARD_IND_STR;
