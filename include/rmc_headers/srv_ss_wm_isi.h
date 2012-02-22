@@ -1,5 +1,5 @@
 /*
-NOKIA                                                             CONFIDENTIAL
+RENESAS MOBILE                                                    CONFIDENTIAL
                   srv_ss_wm_isi.h
                   --------------------------------
                   SW Include Document - ANSI C/C++
@@ -8,20 +8,20 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            srv_ss_wm_isi.h
 
-version:         014.003
+version:         014.004
 
 type:            incl
 
 
 ISI header file for Supplementary Services Server
 
-Current   ISI Version : 014.003
+Current   ISI Version : 014.004
 Supported ISI Versions: 008.003, 008.004, 008.005, 009.000, 009.001, 009.002, 
                         010.000, 010.001, 010.002, 010.003, 010.004, 011.000, 
                         011.001, 011.002, 012.000, 013.000, 014.000, 014.001, 
-                        014.002, 014.003
+                        014.002, 014.003, 014.004
 
-Copyright (c) Nokia Corporation. All rights reserved.
+Copyright (c) Renesas Mobile Corporation. All rights reserved.
 
 
 
@@ -36,7 +36,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef SS_ISI_VERSION
 #define SS_ISI_VERSION
 #define SS_ISI_VERSION_Z  14
-#define SS_ISI_VERSION_Y   3
+#define SS_ISI_VERSION_Y   4
 #endif
 
 #define SS_ISI_MIN_VERSION(z,y) \
@@ -349,6 +349,7 @@ typedef uint8 SS_GSM_USSD_TYPES_CONST;
 #define SS_GSM_USSD_REQUEST                      0x03
 #define SS_GSM_USSD_NOTIFY                       0x04
 #define SS_GSM_USSD_END                          0x05
+#define SS_GSM_USSD_END_PARSED                   0x06
 
 /* ----------------------------------------------------------------------- */
 /* Bitmask Table: SS_STATUS - Valid from version 001.000                   */

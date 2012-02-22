@@ -8,14 +8,14 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            common_dsp_test_isi.h
 
-version:         000.157
+version:         000.158
 
 type:            incl
 
 
 ISI header file for COMMON CDSP Test Interface
 
-Current   ISI Version : 000.157
+Current   ISI Version : 000.158
 Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006, 
                         000.007, 000.008, 000.010, 000.011, 000.012, 000.013, 
                         000.014, 000.015, 000.016, 000.017, 000.018, 000.019, 
@@ -41,7 +41,7 @@ Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006,
                         000.135, 000.136, 000.137, 000.138, 000.139, 000.140, 
                         000.141, 000.142, 000.143, 000.144, 000.145, 000.146, 
                         000.147, 000.148, 000.149, 000.150, 000.151, 000.152, 
-                        000.153, 000.154, 000.155, 000.156, 000.157
+                        000.153, 000.154, 000.155, 000.156, 000.157, 000.158
 
 Copyright (c) Nokia Corporation. All rights reserved.
 
@@ -57,7 +57,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION_Z   0
-#define COMMON_DSP_TEST_ISI_VERSION_Y 157
+#define COMMON_DSP_TEST_ISI_VERSION_Y 158
 #endif
 
 #define COMMON_DSP_TEST_ISI_MIN_VERSION(z,y) \
