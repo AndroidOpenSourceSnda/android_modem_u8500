@@ -1,0 +1,616 @@
+
+/* Created: Wed Feb 22 10:36:41 2012 	*/
+/* os2osmo.pl: v3.0    29-Sep-2010	*/
+/* Perl: 5.008006	*/
+
+/* OS_TIMER_INTERVAL  5.00 ms */
+
+
+
+/**** enumeration with no identifier ****/
+/* C1_L1_ExternalInterrupts_Ch0          0 */
+/* C1_L1_ExternalInterrupts_Ch1          1 */
+/* C1_L1_ExternalInterrupts_Ch2          2 */
+/* C1_L1_ExternalInterrupts_Ch3          3 */
+/* C1_L1_ExternalInterrupts_Ch4          4 */
+/* C1_L1_ExternalInterrupts_Ch5          5 */
+/* C1_L1_ExternalInterrupts_Ch6          6 */
+/* C1_L1_ExternalInterrupts_Ch7          7 */
+/* C1_L1_TSC_FTCInt                      8 */
+/* C1_L1_TSC_GPFTCInt_0                  9 */
+/* C1_L1_TSC_GPFTCInt_1                 10 */
+/* C1_L1_TSC_GPFTCInt_4                 11 */
+/* C1_L1_TSC_GPFTCInt_2                 12 */
+/* C1_L1_TSC_SleepInt_GPFTCInt_3_5to10     13 */
+/* C1_L1_TSC_LatchTimInt                14 */
+/* C1_L1_TSC_LoadTimInt                 15 */
+/* C1_L1_TSC_FC1Int                     16 */
+/* C1_L1_TSC_FC2Int                     17 */
+/* C1_L1_Coder_CoderInt                 18 */
+/* C1_L1_MFILinko_TxInt                 19 */
+/* C1_L1_MFILinko_TxRampInt             20 */
+/* C1_L1_MFILinko_MFITxFSMInt           21 */
+/* C1_L1_MFILinko_MFIRxFSMInt           22 */
+/* C1_L1_CDFE_M_CDFE2Gint_0_2_4         23 */
+/* C1_L1_CDFE_M_CDFE2Gint_1_3_5         24 */
+/* C1_L1_Cliff_OCPSInterrupt            25 */
+/* C1_L1_Clae_CPUSInterrupt             26 */
+/* C1_L1_CVIT_DecDoneInt                27 */
+/* C1_L1_Ester_Interrupt_0              28 */
+/* C1_L1_Ester_Interrupt_1              29 */
+/* C1_L1_WGM_L1_Interrupts_0            30 */
+/* C1_L1_WGM_L1_Interrupts_1            31 */
+/* C1_L1_WGM_L1_Interrupts_2            32 */
+/* C1_L1_WGM_L1_Interrupts_3            33 */
+/* C1_Easy_Interrupt                    34 */
+/* C1_L1_COP101_0_Done_Ch0              35 */
+/* C1_L1_COP101_0_Done_Ch1              36 */
+/* C1_L1_COP101_0_Done_Ch2              37 */
+/* C1_L1_COP101_0_Done_Ch3              38 */
+/* C1_L1_COP101_0_Available             39 */
+/* C1_L1_COP101_0_Exception             40 */
+/* C1_L1_COP101_1_Done_Ch0              41 */
+/* C1_L1_COP101_1_Done_Ch1              42 */
+/* C1_L1_COP101_1_Done_Ch2              43 */
+/* C1_L1_COP101_1_Done_Ch3              44 */
+/* C1_L1_COP101_1_Available             45 */
+/* C1_L1_COP101_1_Exception             46 */
+/* C1_L1_GPT003_0_Disarmed              47 */
+/* C1_L1_GPT003_1_Disarmed              48 */
+/* C1_L1_GPT003_2_Disarmed              49 */
+/* C1_SMT_Easy_Ch0                      50 */
+/* C1_SMT_Easy_Ch1                      51 */
+/* C1_SMT_Easy_Ch2                      52 */
+/* C1_SMT_Easy_Ch3                      53 */
+/* C1_SMT_Easy_Ch4                      54 */
+/* C1_SMT_Easy_Ch5                      55 */
+/* C1_SMT_Easy_Ch6                      56 */
+/* C1_SMT_Easy_Ch7                      57 */
+/* C1_SMT_Easy_Ch8                      58 */
+/* C1_SMT_Easy_Ch9                      59 */
+/* C1_SMT_Easy_Ch10                     60 */
+/* C1_SMT_Easy_Ch11                     61 */
+/* C1_SMT_Easy_Ch12                     62 */
+/* C1_SMT_Easy_Ch13                     63 */
+/* C1_SMT_Easy_Ch14                     64 */
+/* C1_SMT_Easy_Ch15                     65 */
+/* C1_SMT_Easy_Ch16                     66 */
+/* C1_SMT_Easy_Ch17                     67 */
+/* C1_SMT_Easy_Ch18                     68 */
+/* C1_SMT_Easy_Ch19                     69 */
+/* C1_SMT_Easy_Ch20                     70 */
+/* C1_SMT_Easy_Ch21                     71 */
+/* C1_SMT_Easy_Ch22                     72 */
+/* C1_SMT_Easy_Ch23                     73 */
+/* C1_SMT_Easy_Ch24                     74 */
+/* C1_SMT_Easy_Ch25                     75 */
+/* C1_SMT_Easy_Ch26                     76 */
+/* C1_SMT_Easy_Ch27                     77 */
+/* C1_SMT_Easy_Ch28                     78 */
+/* C1_SMT_Easy_Ch29                     79 */
+/* C1_SMT_Easy_Ch30                     80 */
+/* C1_SMT_Easy_Ch31                     81 */
+/* C1_L1_AD002_Cortex                   82 */
+/* C1_L1_AD002_Common                   83 */
+/* C1_Marvin_Done_Ch0                   84 */
+/* C1_Marvin_Done_Ch1                   85 */
+/* C1_Marvin_Done_Ch2                   86 */
+/* C1_Marvin_Done_Ch3                   87 */
+/* C1_Marvin_Available                  88 */
+/* C1_Marvin_Exception                  89 */
+/* C1_L1_CPU_Int_Gen_Ch0                90 */
+/* C1_L1_CPU_Int_Gen_Ch1                91 */
+/* C1_L1_CPU_Int_Gen_Ch2                92 */
+/* C1_L1_CPU_Int_Gen_Ch3                93 */
+/* C1_L1_CPU_Int_Gen_Ch4                94 */
+/* C1_L1_CPU_Int_Gen_Ch5                95 */
+/* C1_L1_CPU_Int_Gen_Ch6                96 */
+/* C1_L1_CPU_Int_Gen_Ch7                97 */
+/* C1_Sem001_Ch0                        98 */
+/* C1_Sem001_Ch1                        99 */
+/* C1_Sem001_Ch2                       100 */
+/* C1_Sem001_Ch3                       101 */
+/* C1_GPRS_cipher                      102 */
+/* C1_Core_GPT003_0_Active             103 */
+/* C1_Core_GPT003_0_Disarmed           104 */
+/* C1_Core_GPT003_1_Active             105 */
+/* C1_Core_GPT003_1_Disarmed           106 */
+/* C1_ED1                              107 */
+/* C1_Debug_AD002_Master               108 */
+/* C1_Debug_AD002_Memory               109 */
+/* C1_Musti_ASR001_BufferNotEmpty_IRQ    110 */
+/* C1_Musti_ASR001_ErrorOccured        111 */
+/* C1_CTI_Interrupt                    112 */
+/* C2_L2_ExternalInterrupts_Ch0          0 */
+/* C2_L2_ExternalInterrupts_Ch1          1 */
+/* C2_L2_ExternalInterrupts_Ch2          2 */
+/* C2_L2_ExternalInterrupts_Ch3          3 */
+/* C2_L2_ExternalInterrupts_Ch4          4 */
+/* C2_L2_ExternalInterrupts_Ch5          5 */
+/* C2_L2_ExternalInterrupts_Ch6          6 */
+/* C2_L2_ExternalInterrupts_Ch7          7 */
+/* C2_L2_ExternalInterrupts_Ch8          8 */
+/* C2_L2_ExternalInterrupts_Ch9          9 */
+/* C2_L2_ExternalInterrupts_Ch10        10 */
+/* C2_L2_ExternalInterrupts_Ch11        11 */
+/* C2_L2_ExternalInterrupts_Ch12        12 */
+/* C2_L2_ExternalInterrupts_Ch13        13 */
+/* C2_L2_ExternalInterrupts_Ch14        14 */
+/* C2_L2_ExternalInterrupts_Ch15        15 */
+/* C2_L2_ExternalInterrupts_Ch16        16 */
+/* C2_L2_ExternalInterrupts_Ch17        17 */
+/* C2_L2_COP101_0_Done_Ch0              18 */
+/* C2_L2_COP101_0_Done_Ch1              19 */
+/* C2_L2_COP101_0_Done_Ch2              20 */
+/* C2_L2_COP101_0_Done_Ch3              21 */
+/* C2_L2_COP101_0_Available             22 */
+/* C2_L2_COP101_0_Exception             23 */
+/* C2_Marvin_Done_Ch0                   24 */
+/* C2_Marvin_Done_Ch1                   25 */
+/* C2_Marvin_Done_Ch2                   26 */
+/* C2_Marvin_Done_Ch3                   27 */
+/* C2_Marvin_Available                  28 */
+/* C2_Marvin_Exception                  29 */
+/* C2_L2_GPT003_0_Disarmed              30 */
+/* C2_L2_GPT003_1_Disarmed              31 */
+/* C2_L2_AD002_Cortex                   32 */
+/* C2_L2_AD002_Common                   33 */
+/* C2_L2_CPU_Int_Gen_Ch0                34 */
+/* C2_L2_CPU_Int_Gen_Ch1                35 */
+/* C2_L2_CPU_Int_Gen_Ch2                36 */
+/* C2_L2_CPU_Int_Gen_Ch3                37 */
+/* C2_L2_CPU_Int_Gen_Ch4                38 */
+/* C2_L2_CPU_Int_Gen_Ch5                39 */
+/* C2_L2_CPU_Int_Gen_Ch6                40 */
+/* C2_L2_CPU_Int_Gen_Ch7                41 */
+/* C2_L2_CPU_Int_Gen_Ch8                42 */
+/* C2_L2_CPU_Int_Gen_Ch9                43 */
+/* C2_L2_CPU_Int_Gen_Ch10               44 */
+/* C2_L2_CPU_Int_Gen_Ch11               45 */
+/* C2_Sem001_Ch0                        46 */
+/* C2_Sem001_Ch1                        47 */
+/* C2_Sem001_Ch2                        48 */
+/* C2_Sem001_Ch3                        49 */
+/* C2_GPRS_cipher                       50 */
+/* C2_Core_GPT003_1_Active              51 */
+/* C2_Core_GPT003_1_Disarmed            52 */
+/* C2_Core_GPT003_2_Active              53 */
+/* C2_Core_GPT003_2_Disarmed            54 */
+/* C2_ED2                               55 */
+/* C2_Debug_AD002_Master                56 */
+/* C2_Debug_AD002_Memory                57 */
+/* C2_Musti_ASR001_BufferNotEmpty_IRQ     58 */
+/* C2_Musti_ASR001_ErrorOccured         59 */
+/* C2_CTI_Interrupt                     60 */
+
+
+/**** enum HW_RESET_REASONS ****/
+/* HW_RESET_RESERVED                     0 */
+/* HW_RESET_UNKNOWN                      1 */
+/* HW_RESET_ASSERTION_FAILED             2 */
+/* HW_RESET_SW_RESET_REQUESTED           3 */
+/* HW_RESET_SECURE_VIOLATION             4 */
+/* HW_RESET_PRODUCTION_RESET             5 */
+/* HW_RESET_ASIC_WD_RESET                6 */
+/* HW_RESET_SECURE_WD_RESET              7 */
+/* HW_RESET_DIV_BY_ZERO                  8 */
+/* HW_RESET_ALIGNMENT_ERROR              9 */
+/* HW_RESET_ABORT_PREFETCH              10 */
+/* HW_RESET_ABORT_DATA                  11 */
+/* HW_RESET_UNDEFINED_INSTRUCTION       12 */
+/* HW_RESET_UNHANDLED_ABORT             13 */
+/* HW_RESET_OS_STACK_OVERFLOW           14 */
+/* HW_RESET_OS_FATAL_HANDLER            15 */
+/* HW_RESET_OS_WARNING_HANDLER          16 */
+/* HW_RESET_IPC_HOST_ERROR              17 */
+/* HW_RESET_IPC_SLAVE_ERROR             18 */
+/* HW_RESET_FATAL                       19 */
+/* HW_RESET_ERROR                       20 */
+/* HW_RESET_WARNING                     21 */
+/* HW_RESET_HIDDEN                      22 */
+/* HW_RESET_OTHER_CPU                   23 */
+
+
+/**** enumeration with no identifier ****/
+/* HW_IO_SIGNAL_FALL                     0 */
+/* HW_IO_SIGNAL_RISE                     1 */
+
+
+/**** enum OS_TASK_NAME ****/
+/* OS_INTERRUPT_HANDLER                 -2 */
+/* OS_UNKNOWN_TASK                      -1 */
+/* OS_LAST_DYNAMIC_TASK                  7 */
+/* OS_IDLE_TASK                          8 */
+/* MEXE_TEST_TASK                        9 */
+/* MON_TASK                             10 */
+/* WD_TASK                              11 */
+/* MCORE_SERVER_TASK                    12 */
+/* GSM_CTRL_TASK_ID                     13 */
+/* TEST_MSG_HANDLER_TASK_ID             14 */
+/* GSM_CODER_TASK_ID                    15 */
+/* GSM_RX_TASK_ID                       16 */
+/* GSM_DECODER_TASK_ID                  17 */
+/* GSM_DECONVOLUTION_TASK_ID            18 */
+/* GSM_ESTER_CTRL_TASK_ID               19 */
+/* WCDMA_HSDEC_TASK_ID                  20 */
+/* WCDMA_RAKE_SLOT_TASK_ID              21 */
+/* WCDMA_RAKE_TASK_ID                   22 */
+/* WCDMA_SEA_TASK_ID                    23 */
+/* WCDMA_HW_ACCESS_CONTROL_TASK_ID      24 */
+/* WCDMA_TX_TASK_ID                     25 */
+/* WCDMA_DEC_TASK_ID                    26 */
+/* WCDMA_CTRL_TASK_ID                   27 */
+/* WCDMA_MEAS_EVAL_TASK_ID              28 */
+/* WCDMA_SEA_SSC_TASK_ID                29 */
+/* OS_TASK_AMOUNT                       30 */
+
+
+/**** enum OS_TIMER_NAME ****/
+/* OS_LAST_DYNAMIC_TIMER                 9 */
+/* DUMMY_TIMER                          10 */
+/* MEXE_TEST_TASK_TIMER                 11 */
+/* MEXE_TEST_HNDLR_TIMER                12 */
+/* MON_TRACE_FLUSH_IND_MEDIUM_TIMER     13 */
+/* MON_TRACE_FLUSH_IND_LONG_TIMER       14 */
+/* WD_TIMER                             15 */
+/* WD_ALIVE_TIMER                       16 */
+/* OS_TIMER_AMOUNT                      17 */
+
+
+/**** enum OS_RESOURCE_NAME ****/
+/* TIME_CAL_ST                           0 */
+/* CS_TIME_TIMEMARK                      1 */
+/* FS_RESOURCE_1                         2 */
+/* MTIME_TIMER_RESOURCE                  3 */
+/* RPCL_CLIENT_RESOURCE                  4 */
+/* RPCL_PROXY_RESOURCE                   5 */
+/* RPCL_RELAY_RESOURCE                   6 */
+/* DVFS_OP_UPDATE                        7 */
+/* DVFS_EMIF_OP_UPDATE                   8 */
+/* MDMA_TRANSFER_COMPLETE                9 */
+/* MARVIN_TRANSFER_COMPLETE             10 */
+/* PWRHAL_MULTITASK                     11 */
+/* HAL_PMM_INIT_GROUP_SEM               12 */
+/* HAL_PMM_GET_REC_SEM                  13 */
+/* HAL_PMM_STORE_REC_SEM                14 */
+/* NTM_SEM                              15 */
+/* tx_ch_coding_sem_value               16 */
+/* tx_il1_sem_value                     17 */
+/* allocation_sem_value                 18 */
+/* fim_state_transition_sem_value       19 */
+/* rake_slot_task_sem_value             20 */
+/* wcdma_hw_external_access_control_sem_value     21 */
+/* wcdma_dvfs_sem_value                 22 */
+/* sea_rf_hal_api_call_block_sem_value     23 */
+/* agc_rssi_scan_sem_value              24 */
+/* OS_RESOURCE_AMOUNT                   25 */
+
+
+/**** enum OS_BLOCK_SET_NAME ****/
+/* BLOCK_16                              0 */
+/* BLOCK_32                              1 */
+/* BLOCK_64                              2 */
+/* BLOCK_128                             3 */
+/* BLOCK_256                             4 */
+/* BLOCK_512                             5 */
+/* BLOCK_1024                            6 */
+/* BLOCK_2048                            7 */
+/* OS_BLOCK_SET_AMOUNT                   8 */
+
+
+/**** enum OS_POOL_NAME ****/
+/* POOL_DEFAULT                          0 */
+/* GERAN_L1_TCM_POOL                     1 */
+/* OS_POOL_AMOUNT                        2 */
+
+
+/**** enum OS_HEAP_NAME ****/
+/* OS_HEAP_NULL                         -1 */
+/* HEAP_DEFAULT                          0 */
+/* OS_HEAP_AMOUNT                        1 */
+
+
+/**** enum OS_RESPONSES ****/
+/* OS_BINARY_SEMAPHORE_USE            -127 0x81 */
+/* OS_BLOCK_USE_AFTER_DEALLOC         -126 0x82 */
+/* OS_CONFIGURATION                   -125 0x83 */
+/* OS_ILLEGAL_NAME                    -124 0x84 */
+/* OS_ILLEGAL_TASK                    -123 0x85 */
+/* OS_ILLEGAL_TIMER                   -122 0x86 */
+/* OS_ILLEGAL_TYPE                    -121 0x87 */
+/* OS_INSUFFICIENT_PRIVILEGE          -120 0x88 */
+/* OS_INTERNAL                        -119 0x89 */
+/* OS_MULTIPLE_DEALLOCATION           -118 0x8A */
+/* OS_NAME_IN_USE                     -117 0x8B */
+/* OS_NONEXISTENT_TARGET              -116 0x8C */
+/* OS_NO_ROOM_FOR_NEW                 -115 0x8D */
+/* OS_PARAMETER                       -114 0x8E */
+/* OS_PREV_BLOCK_OVERWRITE            -113 0x8F */
+/* OS_NO_OPERATION_NEEDED             -112 0x90 */
+/* OS_TARGET_MBX_FULL                 -111 0x91 */
+/* OS_THIS_BLOCK_OVERWRITE            -110 0x92 */
+/* OS_PRIORITY_OUT_OF_RANGE           -109 0x93 */
+/* OS_BLOCK_SET_EMPTY                 -108 0x94 */
+/* OS_NO_BLOCKS                       -107 0x95 */
+/* OS_MODIFIED_BLOCK_POINTER          -106 0x96 */
+/* OS_BAD_MAGIC_NUMBER                -105 0x97 */
+/* OS_POINTER_CORRUPTION              -104 0x98 */
+/* OS_USAGE                           -103 0x99 */
+/* OS_THIS_BLOCK_TAIL_OVERWRITE       -102 0x9A */
+/* OS_CALL_FORWARDED                  -101 0x9B */
+/* OS_TASK_RETURNED                   -100 0x9C */
+/* OS_STACK_OVERFLOW                   -99 0x9D */
+/* OS_TARGET_MBX_FULL_NO_WAIT          -98 0x9E */
+/* OS_TARGET_FASTMSG_MBX_FULL          -97 0x9F */
+/* OS_TARGET_FASTMSG_MBX_FULL_NO_WAIT    -96 0xA0 */
+/* OS_LARGER_BLOCK_USED                -95 0xA1 */
+/* OS_BLOCK_REQUEST_TOO_BIG            -94 0xA2 */
+/* OS_STACK_LOW                        -93 0xA3 */
+/* OS_DUPLICATE_REGISTRATION           -92 0xA4 */
+/* OS_REGION_USE                       -91 0xA5 */
+/* OS_ILLEGAL_REGION                   -90 0xA6 */
+/* OS_TARGET_CALLBACK_BUFFER_FULL      -89 0xA7 */
+/* OS_MEMORY_LOW                       -88 0xA8 */
+/* OS_TOP_RESPONSE                     -87 0xA9 */
+/* OS_OUT_OF_MEMORY                    -86 0xAA */
+/* OS_ILLEGAL_ID                       -85 0xAB */
+/* OS_NO_SIGNALS                       -84 0xAC */
+/* OS_NO_ERROR                           0 0x00 */
+/* OS_USER_DEFINED_ERROR                 1 0x01 */
+
+
+/**** enum MONITOR_HOOK_IDS ****/
+/* HOOK_UNKNOWN_ID                       0 */
+/* HOOK_IRQ_BEGIN_ID                     1 */
+/* HOOK_IRQ_END_ID                       2 */
+/* HOOK_IRQ_INFO_ID                      3 */
+/* HOOK_IPC_DUMP_ID                      4 */
+/* HOOK_CP15_DUMP_ID                     5 */
+/* HOOK_PL310_DUMP_ID                    6 */
+/* HOOK_ERROR_ID                        16 */
+/* HOOK_WARNING_ID                      17 */
+/* HOOK_INFO_ID                         18 */
+/* HOOK_BLOCK_INIT_ID                   19 */
+/* HOOK_IDLE_ID                         20 */
+/* HOOK_MSG_INIT_ID                     21 */
+/* HOOK_OS_INIT_ID                      22 */
+/* HOOK_RESOURCE_INIT_ID                24 */
+/* HOOK_TASK_INIT_ID                    25 */
+/* HOOK_TIMER_INIT_ID                   26 */
+/* HOOK_SCHEDULE_ID                     27 */
+/* HOOK_START_TASK_ID                   28 */
+/* HOOK_TASK_CHANGE_PRIOR_ID            29 */
+/* HOOK_TASK_LIST_INSERT_ID             30 */
+/* HOOK_TASK_LIST_REMOVE_ID             31 */
+/* HOOK_TASK_RESUME_ID                  32 */
+/* HOOK_TASK_SUSPEND_ID                 33 */
+/* HOOK_TIMERMSG_REMOVE_ID              38 */
+/* HOOK_TIMER_EXPIRED_ID                39 */
+/* HOOK_TIMER_READ_ID                   41 */
+/* HOOK_TIMER_START_ID                  42 */
+/* HOOK_TIMER_STOP_ID                   43 */
+/* HOOK_TIMER_INT_ID                    47 */
+/* HOOK_FASTMSG_RECEIVE_ID              48 */
+/* HOOK_FASTMSG_SELECT_ID               49 */
+/* HOOK_FASTMSG_SEND_NO_WAIT_ID         50 */
+/* HOOK_FASTMSG_SEND_WAIT_ID            51 */
+/* HOOK_MSG_COUNT_READ_ID               52 */
+/* HOOK_MSG_RECEIVE_ID                  53 */
+/* HOOK_MSG_SEND_NO_WAIT_ID             54 */
+/* HOOK_MSG_SEND_WAIT_ID                55 */
+/* HOOK_TIMERMSG_RECEIVE_ID             56 */
+/* HOOK_WAIT_IN_FASTMSG_SEND_WAIT_ID     57 */
+/* HOOK_WAIT_IN_MSG_RECEIVE_ID          58 */
+/* HOOK_WAIT_IN_MSG_SEND_WAIT_ID        59 */
+/* HOOK_BLOCK_ALLOC_ID                  60 */
+/* HOOK_BLOCK_ALLOC_NO_WAIT_ID          61 */
+/* HOOK_BLOCK_DEALLOC_ID                63 */
+/* HOOK_HEAP_ALLOC_ID                   64 */
+/* HOOK_HEAP_BLOCK_COUNT_READ_ID        65 */
+/* HOOK_HEAP_DEALLOC_ID                 66 */
+/* HOOK_RESOURCE_RESERVE_ID             69 */
+/* HOOK_RESOURCE_RELEASE_ID             70 */
+/* HOOK_WAIT_IN_RESOURCE_RESERVE_ID     71 */
+/* HOOK_BLOCK_ALLOC_ERROR_GET_ID        72 */
+/* HOOK_BLOCK_ALLOC_STATUS_GET_ID       73 */
+/* HOOK_MSGBUF_STATUS_GET_ID            74 */
+/* HOOK_TASK_ID_GET_ID                  80 */
+/* HOOK_TASK_DELETE_ID                  81 */
+/* HOOK_TASK_CREATE_ID                  83 */
+/* HOOK_TIMER_ID_GET_ID                 84 */
+/* HOOK_TIMER_CREATE_ID                 85 */
+/* HOOK_TIMER_DELETE_ID                 86 */
+/* HOOK_TASK_STATUS_CHANGE_ID           87 */
+/* HOOK_TASK_SWITCH_ID                  93 */
+/* HOOK_CURRENT_TIME_READ_ID            95 */
+/* HOOK_TASK_NAME_GET_ID                98 */
+/* HOOK_TIMER_NAME_GET_ID               99 */
+/* HOOK_TRACE_GROUP_ENABLE_ID          100 */
+/* HOOK_TRACE_GROUP_DISABLE_ID         101 */
+/* HOOK_BLOCK_DEBUG_CALLBACK_REG_ID    102 */
+/* HOOK_BLOCK_DEBUG_CALLBACK_DEREG_ID    103 */
+/* HOOK_REGION_CREATE_ID               106 */
+/* HOOK_REGION_DELETE_ID               107 */
+/* HOOK_REGION_ENTER_ID                108 */
+/* HOOK_REGION_EXIT_ID                 109 */
+/* HOOK_WAIT_IN_REGION_ENTER_ID        110 */
+/* HOOK_REGION_NAME_GET_ID             111 */
+/* HOOK_REGION_ID_GET_ID               112 */
+/* HOOK_AUX_DEALLOCATOR_REG_ID         113 */
+/* HOOK_AUX_DEALLOCATOR_DEREG_ID       114 */
+/* HOOK_TASK_PRIOR_READ_ID             117 */
+/* HOOK_HEAP_ALLOC_NO_WAIT_ID          118 */
+/* HOOK_HEAP_INIT_ID                   121 */
+/* HOOK_CURRENT_TIME_READ_MS_ID        126 */
+/* HOOK_HEAP_CREATE_ID                 134 */
+/* HOOK_HEAP_TASK_LIST_SET_ID          135 */
+/* HOOK_HEAP_DELETE_ID                 136 */
+/* HOOK_BLOCK_REALLOC_ID               137 */
+/* HOOK_ALIGNED_BLOCK_ALLOC_NO_WAIT_ID    138 */
+/* HOOK_ALIGNED_BLOCK_ALLOC_ID         139 */
+/* HOOK_POOL_ALLOCATOR_ID              144 */
+/* HOOK_POOL_DEALLOCATOR_ID            145 */
+/* HOOK_POOL_ALLOC_FROM_ID             146 */
+/* HOOK_POOL_ALLOC_NO_WAIT_FROM_ID     147 */
+/* HOOK_HEAP_ALLOCATOR_ID              148 */
+/* HOOK_HEAP_DEALLOCATOR_ID            149 */
+/* HOOK_BLOCK_CUSTOM_INIT_ID           150 */
+/* HOOK_BLOCK_CUSTOM_SET_ID            151 */
+/* HOOK_BLOCK_ALLOCATOR_ID             152 */
+/* HOOK_BLOCK_DEALLOCATOR_ID           153 */
+/* HOOK_BLOCK_ALLOC_FROM_ID            155 */
+/* HOOK_POOL_CREATE_ID                 156 */
+/* HOOK_POOL_RESERVED_BLOCK_SIZE_GET_ID    157 */
+/* HOOK_HEAP_RESERVED_BLOCK_SIZE_GET_ID    158 */
+/* HOOK_POOL_REALLOC_ID                159 */
+/* HOOK_HEAP_REALLOC_ID                160 */
+/* HOOK_BLOCK_IS_SIZE_REQUEST_FROM_OK_ID    161 */
+/* HOOK_BLOCK_CUSTOM_CONFIG_LOOKUP_ID    162 */
+/* HOOK_SIGNAL_INIT_ID                 170 */
+/* HOOK_SIGNAL_ALLOC_FROM_ID           171 */
+/* HOOK_SIGNAL_ALLOC_NO_WAIT_FROM_ID    172 */
+/* HOOK_SIGNAL_DEALLOC_ID              173 */
+/* HOOK_SIGNAL_SEND_ID                 174 */
+/* HOOK_SIGNAL_CHECK_ID                175 */
+/* HOOK_SIGNAL_RECEIVE_ID              176 */
+/* HOOK_SIGNAL_RECEIVE_NO_WAIT_ID      177 */
+/* HOOK_SIGNAL_ID_SET_ID               181 */
+/* HOOK_SIGNAL_BOX_FLUSH_ID            182 */
+/* HOOK_WAIT_IN_SIGNAL_RECEIVE_ID      184 */
+/* HOOK_AMOUNT                         185 */
+
+
+/**** enum MONITOR_LIST_IDENTIFIERS ****/
+/* OS_READY_LIST                         1 */
+/* OS_WAIT_LIST                          2 */
+
+
+#define OS_TASK_AMOUNT  30                   /*stack mbx fmb i */
+#define OS_TASK_NAME_8   OS_IDLE_TASK                   /* mexe_idle_task    */
+#define OS_TASK_PRIORITY_8   255             /*  800   0   2 0 */
+#define OS_TASK_NAME_9   MEXE_TEST_TASK                 /* mexe_test_task    */
+#define OS_TASK_PRIORITY_9   253             /* 2048  50   0 0 */
+#define OS_TASK_NAME_10  MON_TASK                       /* mon_task          */
+#define OS_TASK_PRIORITY_10  154             /* 1400  10   5 0 */
+#define OS_TASK_NAME_11  WD_TASK                        /* wd_task           */
+#define OS_TASK_PRIORITY_11    1             /* 1024   3   3 0 */
+#define OS_TASK_NAME_12  MCORE_SERVER_TASK              /* mcore_server_task */
+#define OS_TASK_PRIORITY_12  224             /* 4096  10   3 0 */
+#define OS_TASK_NAME_13  GSM_CTRL_TASK_ID               /* gsm_ctrl_task     */
+#define OS_TASK_PRIORITY_13   16             /* 3328  20   3 0 */
+#define OS_TASK_NAME_14  TEST_MSG_HANDLER_TASK_ID       /* test_msg_handler_task */
+#define OS_TASK_PRIORITY_14   62             /* 3072  10   3 0 */
+#define OS_TASK_NAME_15  GSM_CODER_TASK_ID              /* gsm_coder_task    */
+#define OS_TASK_PRIORITY_15   14             /* 1024   5   0 0 */
+#define OS_TASK_NAME_16  GSM_RX_TASK_ID                 /* gsm_rx_task       */
+#define OS_TASK_PRIORITY_16   18             /* 1536  10   0 0 */
+#define OS_TASK_NAME_17  GSM_DECODER_TASK_ID            /* gsm_decoder_task  */
+#define OS_TASK_PRIORITY_17   60             /* 3584  25   0 0 */
+#define OS_TASK_NAME_18  GSM_DECONVOLUTION_TASK_ID      /* gsm_deconvolution_task */
+#define OS_TASK_PRIORITY_18   12             /* 1024   5   0 0 */
+#define OS_TASK_NAME_19  GSM_ESTER_CTRL_TASK_ID         /* gsm_ester_ctrl_task */
+#define OS_TASK_PRIORITY_19   10             /* 1536  15   0 0 */
+#define OS_TASK_NAME_20  WCDMA_HSDEC_TASK_ID            /* hsdec_task        */
+#define OS_TASK_PRIORITY_20   42             /* 8192  10   3 0 */
+#define OS_TASK_NAME_21  WCDMA_RAKE_SLOT_TASK_ID        /* rake_slot_task    */
+#define OS_TASK_PRIORITY_21   44             /* 8192  10   3 0 */
+#define OS_TASK_NAME_22  WCDMA_RAKE_TASK_ID             /* rake_task         */
+#define OS_TASK_PRIORITY_22   46             /* 8192  10   3 0 */
+#define OS_TASK_NAME_23  WCDMA_SEA_TASK_ID              /* sea_task          */
+#define OS_TASK_PRIORITY_23   48             /* 4096  10   3 0 */
+#define OS_TASK_NAME_24  WCDMA_HW_ACCESS_CONTROL_TASK_ID /* wcdma_hw_access_control_task */
+#define OS_TASK_PRIORITY_24   50             /* 4096  10   3 0 */
+#define OS_TASK_NAME_25  WCDMA_TX_TASK_ID               /* tx_task           */
+#define OS_TASK_PRIORITY_25   52             /* 8192  10   3 0 */
+#define OS_TASK_NAME_26  WCDMA_DEC_TASK_ID              /* dec_task          */
+#define OS_TASK_PRIORITY_26   72             /* 8192  10   3 0 */
+#define OS_TASK_NAME_27  WCDMA_CTRL_TASK_ID             /* ctrl_task         */
+#define OS_TASK_PRIORITY_27   82             /* 4096  10   3 0 */
+#define OS_TASK_NAME_28  WCDMA_MEAS_EVAL_TASK_ID        /* meas_eval_task    */
+#define OS_TASK_PRIORITY_28   84             /* 4096  10   3 0 */
+#define OS_TASK_NAME_29  WCDMA_SEA_SSC_TASK_ID          /* sea_ssc_task      */
+#define OS_TASK_PRIORITY_29   86             /* 4096  10   3 0 */
+
+
+#define OS_TIMER_AMOUNT 17
+#define OS_TIMER_NAME_10  DUMMY_TIMER                    /* ((void*)0)        */
+#define OS_TIMER_TYPE_10  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_10  OS_IDLE_TASK                  
+#define OS_TIMER_NAME_11  MEXE_TEST_TASK_TIMER           /* mexe_test_task    */
+#define OS_TIMER_TYPE_11  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_11  MEXE_TEST_TASK                
+#define OS_TIMER_NAME_12  MEXE_TEST_HNDLR_TIMER          /* (0xc0+MEXE_TEST_HNDLR_TIMER) */
+#define OS_TIMER_TYPE_12  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_12  MEXE_TEST_TASK                
+#define OS_TIMER_NAME_13  MON_TRACE_FLUSH_IND_MEDIUM_TIMER /* (0xc0+MON_TRACE_FLUSH_IND_MEDIUM_TIMER) */
+#define OS_TIMER_TYPE_13  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_13  MON_TASK                      
+#define OS_TIMER_NAME_14  MON_TRACE_FLUSH_IND_LONG_TIMER /* (0xc0+MON_TRACE_FLUSH_IND_LONG_TIMER) */
+#define OS_TIMER_TYPE_14  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_14  MON_TASK                      
+#define OS_TIMER_NAME_15  WD_TIMER                       /* (0xc0+WD_TIMER)   */
+#define OS_TIMER_TYPE_15  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_15  WD_TASK                       
+#define OS_TIMER_NAME_16  WD_ALIVE_TIMER                 /* (0xc0+WD_ALIVE_TIMER) */
+#define OS_TIMER_TYPE_16  OS_MESSAGE_TIMER              
+#define OS_TIMER_DESTINATION_16  WD_TASK                       
+
+
+#define OS_RESOURCE_AMOUNT 25
+#define OS_RESOURCE_NAME_0  TIME_CAL_ST                  /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_1  CS_TIME_TIMEMARK             /* BINARY FREE     */
+#define OS_RESOURCE_NAME_2  FS_RESOURCE_1                /* BINARY FREE     */
+#define OS_RESOURCE_NAME_3  MTIME_TIMER_RESOURCE         /* BINARY FREE     */
+#define OS_RESOURCE_NAME_4  RPCL_CLIENT_RESOURCE         /* COUNTING 0      */
+#define OS_RESOURCE_NAME_5  RPCL_PROXY_RESOURCE          /* COUNTING 0      */
+#define OS_RESOURCE_NAME_6  RPCL_RELAY_RESOURCE          /* COUNTING 0      */
+#define OS_RESOURCE_NAME_7  DVFS_OP_UPDATE               /* BINARY FREE     */
+#define OS_RESOURCE_NAME_8  DVFS_EMIF_OP_UPDATE          /* BINARY FREE     */
+#define OS_RESOURCE_NAME_9  MDMA_TRANSFER_COMPLETE       /* COUNTING 0      */
+#define OS_RESOURCE_NAME_10 MARVIN_TRANSFER_COMPLETE     /* COUNTING 0      */
+#define OS_RESOURCE_NAME_11 PWRHAL_MULTITASK             /* BINARY FREE     */
+#define OS_RESOURCE_NAME_12 HAL_PMM_INIT_GROUP_SEM       /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_13 HAL_PMM_GET_REC_SEM          /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_14 HAL_PMM_STORE_REC_SEM        /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_15 NTM_SEM                      /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_16 tx_ch_coding_sem_value       /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_17 tx_il1_sem_value             /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_18 allocation_sem_value         /* BINARY FREE     */
+#define OS_RESOURCE_NAME_19 fim_state_transition_sem_value /* BINARY FREE     */
+#define OS_RESOURCE_NAME_20 rake_slot_task_sem_value     /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_21 wcdma_hw_external_access_control_sem_value /* BINARY FREE     */
+#define OS_RESOURCE_NAME_22 wcdma_dvfs_sem_value         /* BINARY FREE     */
+#define OS_RESOURCE_NAME_23 sea_rf_hal_api_call_block_sem_value /* BINARY RESERVED */
+#define OS_RESOURCE_NAME_24 agc_rssi_scan_sem_value      /* BINARY RESERVED */
+
+
+#define MESSAGE_MAP_AMOUNT 0
+
+/* OS_BLOCK_HEAP_BYTES == 640000 */
+/* OS_BLOCK_DATA_MIN_BYTES == 8 */
+
+
+#define OS_BLOCK_SET_AMOUNT 8
+#define OS_BLOCK_AMOUNT_0   70                            
+#define OS_BLOCK_SIZE_0  16   /* os_memory_pool.str.block_16[0...69].header */
+#define OS_BLOCK_AMOUNT_1   30                            
+#define OS_BLOCK_SIZE_1  32   /* os_memory_pool.str.block_32[0...29].header */
+#define OS_BLOCK_AMOUNT_2   40                            
+#define OS_BLOCK_SIZE_2  64   /* os_memory_pool.str.block_64[0...39].header */
+#define OS_BLOCK_AMOUNT_3   20                            
+#define OS_BLOCK_SIZE_3  128  /* os_memory_pool.str.block_128[0...19].header */
+#define OS_BLOCK_AMOUNT_4   14                            
+#define OS_BLOCK_SIZE_4  256  /* os_memory_pool.str.block_256[0...13].header */
+#define OS_BLOCK_AMOUNT_5   26                            
+#define OS_BLOCK_SIZE_5  512  /* os_memory_pool.str.block_512[0...25].header */
+#define OS_BLOCK_AMOUNT_6   12                            
+#define OS_BLOCK_SIZE_6  1024 /* os_memory_pool.str.block_1024[0...11].header */
+#define OS_BLOCK_AMOUNT_7   6                             
+#define OS_BLOCK_SIZE_7  2048 /* os_memory_pool.str.block_2048[0...5].header */
+
+/* sizeof(OS_BLOCK_HEADER_STR) == 8 */
+
+/* OS_BLOCK_CHECK_LENGTH is unknown! */
+
+
+/* EOF */
