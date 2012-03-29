@@ -8,14 +8,14 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            common_dsp_test_isi.h
 
-version:         000.158
+version:         000.159
 
 type:            incl
 
 
 ISI header file for COMMON CDSP Test Interface
 
-Current   ISI Version : 000.158
+Current   ISI Version : 000.159
 Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006, 
                         000.007, 000.008, 000.010, 000.011, 000.012, 000.013, 
                         000.014, 000.015, 000.016, 000.017, 000.018, 000.019, 
@@ -41,7 +41,8 @@ Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006,
                         000.135, 000.136, 000.137, 000.138, 000.139, 000.140, 
                         000.141, 000.142, 000.143, 000.144, 000.145, 000.146, 
                         000.147, 000.148, 000.149, 000.150, 000.151, 000.152, 
-                        000.153, 000.154, 000.155, 000.156, 000.157, 000.158
+                        000.153, 000.154, 000.155, 000.156, 000.157, 000.158, 
+                        000.159
 
 Copyright (c) Nokia Corporation. All rights reserved.
 
@@ -57,7 +58,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION_Z   0
-#define COMMON_DSP_TEST_ISI_VERSION_Y 158
+#define COMMON_DSP_TEST_ISI_VERSION_Y 159
 #endif
 
 #define COMMON_DSP_TEST_ISI_MIN_VERSION(z,y) \
@@ -1353,11 +1354,18 @@ typedef struct
     uint16  channel_nbr;
     uint16  off_time;     /* TX off time before next sub-blocks pcls */
     uint16  number_of_pcl; /* Number of PCLs for consecutive slots */
-    /* Power Levels. MSb '1' indicating EDGE ON */
-    int16   power_level[COMMON_DSP_TEST_ANY_SIZE];
+    /* Power levels in terms of PCL values
+       MSb '1' indicating EDGE ON
+        power_level[0] xxxxxxxx-------- PCL[0] 
+        power_level[0] --------xxxxxxxx PCL[1] 
+        power_level[1] xxxxxxxx-------- PCL[2] 
+        power_level[1] --------xxxxxxxx PCL[3] 
+    */
+    uint16  power_level[2];
+    uint16  fill1;
     } GSM_TX_SWEEP_TEST_OPER_STR;
 
-#define SIZE_GSM_TX_SWEEP_TEST_OPER_STR   (sizeof(uint32) + 3*sizeof(uint16))
+#define SIZE_GSM_TX_SWEEP_TEST_OPER_STR   sizeof(GSM_TX_SWEEP_TEST_OPER_STR)
 
 
 /* ----------------------------------------------------------------------- */
