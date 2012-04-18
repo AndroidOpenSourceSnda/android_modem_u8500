@@ -8,14 +8,14 @@ RENESAS                                                           CONFIDENTIAL
 
 name:            net_wm_isi.h
 
-version:         017.010
+version:         018.000
 
 type:            incl
 
 
 ISI header file for Modem Network Select Server
 
-Current   ISI Version : 017.010
+Current   ISI Version : 018.000
 Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013, 
                         003.014, 003.015, 003.016, 003.017, 003.018, 003.019, 
                         003.020, 003.021, 004.000, 004.001, 004.002, 004.003, 
@@ -28,7 +28,7 @@ Supported ISI Versions: 003.008, 003.009, 003.010, 003.011, 003.012, 003.013,
                         016.002, 016.003, 016.004, 016.005, 016.006, 016.007, 
                         016.008, 016.009, 016.010, 016.011, 016.012, 017.000, 
                         017.001, 017.002, 017.003, 017.004, 017.005, 017.006, 
-                        017.007, 017.008, 017.009, 017.010
+                        017.007, 017.008, 017.009, 017.010, 017.011, 018.000
 
 Copyright (c) Renesas Corporation. All rights reserved.
 
@@ -44,8 +44,8 @@ Copyright (c) Renesas Corporation. All rights reserved.
 
 #ifndef NET_MODEM_ISI_VERSION
 #define NET_MODEM_ISI_VERSION
-#define NET_MODEM_ISI_VERSION_Z  17
-#define NET_MODEM_ISI_VERSION_Y  10
+#define NET_MODEM_ISI_VERSION_Z  18
+#define NET_MODEM_ISI_VERSION_Y   0
 #endif
 
 #define NET_MODEM_ISI_MIN_VERSION(z,y) \
@@ -322,6 +322,14 @@ typedef uint8 NET_TEST_CARRIER_SETTING_OPERATIONS_CONST;
 #define NET_TEST_CARRIER_SET                     0x00
 /* Test carrier is no longer valid */
 #define NET_TEST_CARRIER_CLEAR                   0x01
+/* Measurement biasing to 3G target cell start  */
+#define NET_TEST_MEAS_BIAS_START_3G              0x08
+/* Measurement suppress start  */
+#define NET_TEST_MEAS_BIAS_SUPPRESS              0x0A
+/* Measurement biasing/suppress stop  */
+#define NET_TEST_MEAS_BIAS_STOP                  0x0B
+/* Check the current measurement biasing/suppress status  */
+#define NET_TEST_MEAS_BIAS_QUERY                 0x0C
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: NET_TEST_CARRIER_TYPE                                   */
@@ -815,6 +823,16 @@ typedef uint8 NET_UTRAN_RADIO_STATE_CONST;
 #define NET_UTRAN_RADIO_CELL_DCH                 0x01
 
 /* ----------------------------------------------------------------------- */
+/* Constant Table: NET_TEST_BIAS_STATUS - Valid from version 017.011       */
+/* ----------------------------------------------------------------------- */
+typedef uint8 NET_TEST_BIAS_STATUS_CONST;
+
+/* Measurement biasing is not active */
+#define NET_TEST_BIAS_INACTIVE                   0x00
+/* Measurement biasing is active */
+#define NET_TEST_BIAS_ACTIVE                     0x01
+
+/* ----------------------------------------------------------------------- */
 /* Constant Table: NET_SIGNAL_LEVEL_TYPE_TBL - Valid from version 016.010  */
 /* ----------------------------------------------------------------------- */
 typedef uint8 NET_SIGNAL_LEVEL_TYPE_TBL_CONST;
@@ -964,6 +982,9 @@ typedef uint8 NET_REG_STATUS_IND_SEND_MODE_TBL_CONST;
 #define NET_ECNO_CURRENT                         0x5C
 #define NET_TEST_CARRIER_PARAM                   0x05
 #define NET_TEST_WCDMA_PARAMS                    0x2D
+#define NET_TEST_TARGET_WRAN_BIAS_PARAMS         0x4C
+#define NET_TEST_NON_TARGET_WRAN_BIAS_PARAMS     0x4E
+#define NET_TEST_BIAS_RESPONSE                   0x4F
 #define NET_CIPHERING_INFO                       0x29
 #define NET_MODEM_GSM_REG_INFO                   0x09
 #define NET_MODEM_CURRENT_CELL_INFO              0x39
@@ -1216,6 +1237,52 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
+/* Subblock: NET_TEST_TARGET_WRAN_BIAS_PARAMS - Valid from version 017.011 */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8   sub_block_id;
+    uint8   sub_block_length;
+    uint16  carrier_channel_nbr;
+    uint16  carrier_scrambling_code;
+    uint16  ecno_enhance;
+    uint16  rscp_enhance;
+    uint8   pad1;
+    uint8   pad2;
+    } tNET_WranBiasingTargetParams;
+
+
+/* ----------------------------------------------------------------------- */
+/* Subblock: NET_TEST_NON_TARGET_WRAN_BIAS_PARAMS - Valid from version 017.011 */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8   sub_block_id;
+    uint8   sub_block_length;
+    uint16  ecno_degrade;
+    uint16  rscp_degrade;
+    uint8   pad1;
+    uint8   pad2;
+    } tNET_WranBiasingNonTargetParams;
+
+
+/* ----------------------------------------------------------------------- */
+/* Subblock: NET_TEST_BIAS_RESPONSE - Valid from version 017.011           */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8   sub_block_id;
+    uint8   sub_block_length;
+    /* Values from the constant table NET_TEST_BIAS_STATUS */
+    uint8   network_status;
+    uint8   pad2;
+    } tNET_BiasingResponse;
+
+
+/* ----------------------------------------------------------------------- */
 /* Subblock: NET_CIPHERING_INFO                                            */
 /* ----------------------------------------------------------------------- */
 
@@ -1247,9 +1314,10 @@ typedef struct
     uint8   operator_code_1;
     uint8   operator_code_2;
     uint8   operator_code_3;
-    /* A subset of values from the constant table NET_MODEM_GSM_BAND_INFO_TBL
+    /* If set TRUE then the cell supports 3GPP Fast Dormancy. If set FALSE
+       then support has not been indicated by the NW.
     */
-    uint8   gsm_band_info;
+    uint8   fd_available_in_cell;
     /* A subset of values from the constant table NET_MODEM_GSM_NETWORK_TYPE
     */
     uint8   network_type;
@@ -1296,9 +1364,10 @@ typedef struct
     uint8   operator_code_1;
     uint8   operator_code_2;
     uint8   operator_code_3;
-    /* A subset of values from the constant table NET_MODEM_GSM_BAND_INFO_TBL
+    /* If set TRUE then the cell supports 3GPP Fast Dormancy. If set FALSE
+       then support has not been indicated by the NW.
     */
-    uint8   gsm_band_info;
+    uint8   fd_available_in_cell;
     /* A subset of values from the constant table NET_MODEM_GSM_NETWORK_TYPE
     */
     uint8   network_type;
@@ -2369,9 +2438,9 @@ typedef struct
 
 typedef struct
     {
-    /* This message is used to set up the production carrier. Access
-       technology related setting parameters are included in the
-       corresponding SB.
+    /* This message is used to set up the production carrier or measurement
+       biasing. Access technology related setting/biasing parameters are
+       included in the corresponding SB.
     */
     uint8   trans_id;
     uint8   message_id;
@@ -2380,6 +2449,8 @@ typedef struct
     uint8   sub_block_count;
     /* Subblock list:
        NET_TEST_CARRIER_PARAM
+       NET_TEST_NON_TARGET_WRAN_BIAS_PARAMS
+       NET_TEST_TARGET_WRAN_BIAS_PARAMS
        NET_TEST_WCDMA_PARAMS
     */
     uint8   sub_blocks[NET_MODEM_ANY_SIZE];
@@ -2403,6 +2474,7 @@ typedef struct
     uint8   success_code;
     uint8   sub_block_count;
     /* Subblock list:
+       NET_TEST_BIAS_RESPONSE
        NET_TEST_CARRIER_PARAM
        NET_TEST_WCDMA_PARAMS
     */
