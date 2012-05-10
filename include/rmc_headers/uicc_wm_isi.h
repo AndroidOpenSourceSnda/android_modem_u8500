@@ -1,5 +1,5 @@
 /*
-RENESAS MOBILE                                                    CONFIDENTIAL
+Renesas                                                           CONFIDENTIAL
                   uicc_wm_isi.h
                   --------------------------------
                   SW Include Document - ANSI C/C++
@@ -8,16 +8,17 @@ RENESAS MOBILE                                                    CONFIDENTIAL
 
 name:            uicc_wm_isi.h
 
-version:         006.003
+version:         006.004
 
 type:            incl
 
 
 ISI header file for UICC Server
 
-Current   ISI Version : 006.003
+Current   ISI Version : 006.004
 Supported ISI Versions: 001.000, 002.000, 002.001, 003.000, 004.000, 004.001, 
-                        004.002, 005.000, 006.000, 006.001, 006.002, 006.003
+                        004.002, 005.000, 006.000, 006.001, 006.002, 006.003, 
+                        006.004
 
 Copyright (c) Renesas Mobile Corporation. All rights reserved.
 
@@ -34,7 +35,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef UICC_ISI_VERSION
 #define UICC_ISI_VERSION
 #define UICC_ISI_VERSION_Z   6
-#define UICC_ISI_VERSION_Y   3
+#define UICC_ISI_VERSION_Y   4
 #endif
 
 #define UICC_ISI_MIN_VERSION(z,y) \
@@ -535,6 +536,8 @@ typedef uint8 UICC_CARD_REMOVE_CAUSE_TABLE_CONST;
 /* Card removed due to presence detection failure. Card recovery in progress.
 */
 #define UICC_CARD_REMOVE_CAUSE_PRESENCE_DETECTION 0x01
+/* Card removed due to card change being detected. */
+#define UICC_CARD_REMOVE_CAUSE_CARD_CHANGED      0x02
 
 /* ----------------------------------------------------------------------- */
 /* Message ID's                                                            */
