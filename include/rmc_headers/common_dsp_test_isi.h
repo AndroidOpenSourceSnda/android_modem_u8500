@@ -8,14 +8,14 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            common_dsp_test_isi.h
 
-version:         000.159
+version:         000.160
 
 type:            incl
 
 
 ISI header file for COMMON CDSP Test Interface
 
-Current   ISI Version : 000.159
+Current   ISI Version : 000.160
 Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006, 
                         000.007, 000.008, 000.010, 000.011, 000.012, 000.013, 
                         000.014, 000.015, 000.016, 000.017, 000.018, 000.019, 
@@ -42,7 +42,7 @@ Supported ISI Versions: 000.001, 000.002, 000.003, 000.004, 000.005, 000.006,
                         000.141, 000.142, 000.143, 000.144, 000.145, 000.146, 
                         000.147, 000.148, 000.149, 000.150, 000.151, 000.152, 
                         000.153, 000.154, 000.155, 000.156, 000.157, 000.158, 
-                        000.159
+                        000.159, 000.160
 
 Copyright (c) Nokia Corporation. All rights reserved.
 
@@ -58,7 +58,7 @@ Copyright (c) Nokia Corporation. All rights reserved.
 #ifndef COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION
 #define COMMON_DSP_TEST_ISI_VERSION_Z   0
-#define COMMON_DSP_TEST_ISI_VERSION_Y 159
+#define COMMON_DSP_TEST_ISI_VERSION_Y 160
 #endif
 
 #define COMMON_DSP_TEST_ISI_MIN_VERSION(z,y) \
@@ -891,6 +891,7 @@ typedef uint16 C_TEST_GSM_TX_SWEEP_SETUP_CONST;
 #define C_HAL_RF_SB_TUNING_VALUES_GET_RESP       0x0084
 #define C_HAL_SB_WCDMA_TX_SWEEP_TEST_CONTROL     0x00AD
 #define C_HAL_SB_GSM_TX_SWEEP_TEST_CONTROL       0x00F6
+#define C_TEST_SB_WCDMA_TX_IQ_SETUP              0x00F7
 #define C_TEST_SB_HSPA_MAX_PWR_RED_VALUES        0x0075
 #define C_TEST_SB_LINKO2_FREQ_RESP_CAL_RESULTS   0x0080
 #define C_TEST_SB_RSSI_TUNING                    0x00B5
@@ -4018,6 +4019,24 @@ typedef struct
 
 
 /* ----------------------------------------------------------------------- */
+/* Subblock: C_TEST_SB_WCDMA_TX_IQ_SETUP - Valid from version 000.160      */
+/* ----------------------------------------------------------------------- */
+/* Sub-block for WCDMA Tx IQ tuning */
+
+typedef struct
+    {
+    uint16  sb_id;
+    uint16  sb_len;
+    uint32  band_info;    /* Values from the bitmask table INFO_WCDMA_BAND */
+    uint16  ul_uarfcn;    /* Tx channel number */
+    uint16  fill1;        /* Filler bytes for debugging features */
+    } C_TEST_SB_WCDMA_TX_IQ_SETUP_STR;
+
+#define SIZE_C_TEST_SB_WCDMA_TX_IQ_SETUP_STR   \
+        sizeof(C_TEST_SB_WCDMA_TX_IQ_SETUP_STR)
+
+
+/* ----------------------------------------------------------------------- */
 /* Subblock: C_TEST_SB_HSPA_MAX_PWR_RED_VALUES - Valid from version 000.100 */
 /* ----------------------------------------------------------------------- */
 /* Sub-block for configuring WCDMA HSPA max power reduction values. Used to
@@ -4874,6 +4893,7 @@ typedef struct
     /* Subblock list:
        C_TEST_SB_GSM_TX_IQ_SETUP
        C_TEST_SB_WCDMA_LO_LEAK_SETUP
+       C_TEST_SB_WCDMA_TX_IQ_SETUP
     */
     uint16  sub_blocks[COMMON_DSP_TEST_ANY_SIZE];
     } C_TEST_IQ_SELF_TUNING_REQ_STR;
