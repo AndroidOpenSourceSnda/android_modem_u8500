@@ -25,7 +25,14 @@ LOCAL_MODULE_PATH := $(PRODUCT_OUT)
 
 $(addprefix $(LOCAL_PATH),/$(LOCAL_SRC_FILES)): $(PRIVATE_MODEM_PATH)/modemfs $(MKEXT2USERIMG) $(MAKE_EXT4FS)
 ifeq ($(TARGET_USERIMAGES_USE_EXT4),true)
-	$(call build-userimage-ext-target,$<,$@,modemfs,ext4,$(BOARD_MODEMIMAGE_PARTITION_SIZE))
+# $(o): sparse flag
+# $(1): src directory
+# $(2): output file
+# $(3): ext variant (ext2, ext3, ext4)
+# $(4): mount point
+# $(5): size of the partition
+	$(hide) PATH=$(foreach p,$(INTERNAL_USERIMAGES_BINARY_PATHS),$(p):)$$PATH \
+	  $(MKEXTUSERIMG) $(INTERNAL_USERIMAGES_SPARSE_EXT_FLAG) $< $@ ext4 modemfs $(BOARD_MODEMIMAGE_PARTITION_SIZE)
 else
 	$(hide) echo "ERROR: File system image $@ has only been verified to work as an ext4 file system image!"; false
 endif
