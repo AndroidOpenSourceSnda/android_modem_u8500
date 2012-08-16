@@ -8,7 +8,7 @@ NOKIA                                                             CONFIDENTIAL
 
 name:            monitor_server_modem_msg_ext.h
 
-version:         001.005
+version:         001.007
 
 type:            incl
 
@@ -17,7 +17,7 @@ ISI header file for Monitor Server Message Interface
 
 
 
-Copyright (c) 2011 Nokia Corporation. All rights reserved.
+Copyright (c) 2012 Nokia Corporation. All rights reserved.
 
 
 
@@ -54,6 +54,10 @@ typedef uint8_t MON_RESPONSE_SYMBOLS_CONST;
 #define MON_CAUSE_PARTIAL_UPDATE                 0x0B
 /* An enity id in the request is unknown, request failed. */
 #define MON_CAUSE_UNKNOWN_ENTITY                 0x0A
+/* The trace buffering is ongoing. The requested change is not permitted. */
+#define MON_CAUSE_BUFFERING_ON                   0x10
+/* There is no trace buffer area. */
+#define MON_CAUSE_NO_TRACE_BUFFER                0x11
 
 /* ----------------------------------------------------------------------- */
 /* Constant Table: MON_TRACE_BITMAP_TYPE_SYM                               */
@@ -176,6 +180,24 @@ typedef uint8_t MON_TRACE_TRIGGER_ACTION_SYMBOLS_CONST;
 #define TRIGGER_STOP                             0x01
 
 /* ----------------------------------------------------------------------- */
+/* Constant Table: MON_TRACE_BUFFERING_MODE_SYMBOLS                        */
+/* ----------------------------------------------------------------------- */
+/* The message MON_TRACE_BUFFERING_MODE_REQ or the environment variable
+   TRACE_BUFFER_SDRAM_ONLY can be used for setting the buffering mode. It can
+   take the values listed in the table.
+*/
+typedef uint8_t MON_TRACE_BUFFERING_MODE_SYMBOLS_CONST;
+
+/* In the FLUSHING_MODE modem sends flush indications to inform APE that a
+   buffer section is ready for flushing. This is the default.
+*/
+#define FLUSHING_MODE                            0x00
+/* In the SDRAM_ONLY_MODE trace buffers are not offloaded by APE. Modem
+   should optimize trace buffer area for SDRAM only tracing.
+*/
+#define SDRAM_ONLY_MODE                          0x01
+
+/* ----------------------------------------------------------------------- */
 /* Constant Table: MON_TRACE_BUFFER_MARKER_SYMBOLS                         */
 /* ----------------------------------------------------------------------- */
 typedef uint8_t MON_TRACE_BUFFER_MARKER_SYMBOLS_CONST;
@@ -212,6 +234,10 @@ typedef uint8_t MON_TRACE_BUFFER_MARKER_SYMBOLS_CONST;
 #define MON_TRACE_IDS_ACTIVATE_ROUTE_RESP        0xBD
 #define MON_TRACE_BUFFER_MARKER_REQ              0xBE
 #define MON_TRACE_BUFFER_MARKER_RESP             0xBF
+#define MON_TRACE_BUFFERING_MODE_REQ             0xEA
+#define MON_TRACE_BUFFERING_MODE_RESP            0xEB
+#define MON_TRACE_BUFFERING_MODE_READ_REQ        0xEC
+#define MON_TRACE_BUFFERING_MODE_READ_RESP       0xED
 
 /* ----------------------------------------------------------------------- */
 /* Subblock ID's                                                           */
@@ -700,6 +726,9 @@ typedef struct
 /* ----------------------------------------------------------------------- */
 /* Message: MON_TRACE_BUFFER_MARKER_REQ                                    */
 /* ----------------------------------------------------------------------- */
+/* The message can be used to set markers to trace buffers. It will insert a
+   trace to medium and long term buffers for both L1 and L23 processor.
+*/
 
 typedef struct
     {
@@ -731,6 +760,81 @@ typedef struct
 #define SIZE_MON_TRACE_BUFFER_MARKER_RESP_STR   \
         sizeof(MON_TRACE_BUFFER_MARKER_RESP_STR)
 
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFERING_MODE_REQ                                   */
+/* ----------------------------------------------------------------------- */
+/* This message can be used to set the trace buffering mode. The buffering
+   can be done in SDRAM_ONLY mode when modem doesn't send flush indications,
+   or in the FLUSHING mode when flush indications are sent. The internal
+   structure of the trace buffers depends on the buffering mode. For this
+   reason, the mode can be changed only if trace buffering is not active at
+   the moment.
+*/
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    uint8_t   fill1;
+    /* Values from the constant table MON_TRACE_BUFFERING_MODE_SYMBOLS */
+    uint8_t   trace_routing;
+    } MON_TRACE_BUFFERING_MODE_REQ_STR;
+
+#define SIZE_MON_TRACE_BUFFERING_MODE_REQ_STR   \
+        sizeof(MON_TRACE_BUFFERING_MODE_REQ_STR)
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFERING_MODE_RESP                                  */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    uint8_t   fill1;
+    /* A subset of values from the constant table MON_RESPONSE_SYMBOLS */
+    uint8_t   status;
+    } MON_TRACE_BUFFERING_MODE_RESP_STR;
+
+#define SIZE_MON_TRACE_BUFFERING_MODE_RESP_STR   \
+        sizeof(MON_TRACE_BUFFERING_MODE_RESP_STR)
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFERING_MODE_READ_REQ                              */
+/* ----------------------------------------------------------------------- */
+/* This message can be used to read the current setting for the trace routing
+   and the trace buffering mode.
+*/
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    uint8_t   fill1[2];
+    } MON_TRACE_BUFFERING_MODE_READ_REQ_STR;
+
+#define SIZE_MON_TRACE_BUFFERING_MODE_READ_REQ_STR   \
+        sizeof(MON_TRACE_BUFFERING_MODE_READ_REQ_STR)
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: MON_TRACE_BUFFERING_MODE_READ_RESP                             */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8_t   trans_id;
+    uint8_t   message_id;
+    /* Values from the constant table MON_TRACE_ROUTING_SYMBOLS */
+    uint8_t   trace_routing;
+    /* Values from the constant table MON_TRACE_BUFFERING_MODE_SYMBOLS */
+    uint8_t   buffering_mode;
+    } MON_TRACE_BUFFERING_MODE_READ_RESP_STR;
+
+#define SIZE_MON_TRACE_BUFFERING_MODE_READ_RESP_STR   \
+        sizeof(MON_TRACE_BUFFERING_MODE_READ_RESP_STR)
 
 
 #endif /* _MONITOR_SERVER_MODEM_MSG_EXT_H */
