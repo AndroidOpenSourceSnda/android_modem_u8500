@@ -1,5 +1,5 @@
 /*
-Renesas Mobile                                                    CONFIDENTIAL
+NOKIA                                                             CONFIDENTIAL
                   gpds_shared_wm_isi.h
                   --------------------------------
                   SW Include Document - ANSI C/C++
@@ -8,14 +8,14 @@ Renesas Mobile                                                    CONFIDENTIAL
 
 name:            gpds_shared_wm_isi.h
 
-version:         019.013
+version:         019.014
 
 type:            incl
 
 
 ISI header file for GPDS Shared Subblock Descriptions
 
-Current   ISI Version : 019.013
+Current   ISI Version : 019.014
 Supported ISI Versions: 011.001, 012.000, 012.001, 012.002, 012.003, 012.004, 
                         012.005, 012.006, 012.007, 012.008, 012.009, 012.010, 
                         012.011, 013.000, 013.001, 013.002, 013.003, 013.004, 
@@ -29,9 +29,9 @@ Supported ISI Versions: 011.001, 012.000, 012.001, 012.002, 012.003, 012.004,
                         017.025, 018.000, 018.001, 018.002, 018.003, 018.004, 
                         018.005, 018.006, 018.007, 019.000, 019.001, 019.002, 
                         019.003, 019.004, 019.005, 019.006, 019.007, 019.008, 
-                        019.009, 019.010, 019.011, 019.012, 019.013
+                        019.009, 019.010, 019.011, 019.012, 019.013, 019.014
 
-Copyright (c) Renesas Mobile Corporation. All rights reserved.
+Copyright (c) Nokia Corporation. All rights reserved.
 
 
 
@@ -46,7 +46,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION_Z  19
-#define GPDS_ISI_VERSION_Y  13
+#define GPDS_ISI_VERSION_Y  14
 #endif
 
 #define GPDS_ISI_MIN_VERSION(z,y) \

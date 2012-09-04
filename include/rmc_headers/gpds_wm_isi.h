@@ -1,5 +1,5 @@
 /*
-Renesas Mobile                                                    CONFIDENTIAL
+NOKIA                                                             CONFIDENTIAL
                   gpds_wm_isi.h
                   --------------------------------
                   SW Include Document - ANSI C/C++
@@ -8,14 +8,14 @@ Renesas Mobile                                                    CONFIDENTIAL
 
 name:            gpds_wm_isi.h
 
-version:         019.013
+version:         019.014
 
 type:            incl
 
 
 ISI header file for General Packet Data Server
 
-Current   ISI Version : 019.013
+Current   ISI Version : 019.014
 Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000, 
                         011.001, 012.000, 012.001, 012.002, 012.003, 012.004, 
                         012.005, 012.006, 012.007, 012.008, 012.009, 012.010, 
@@ -30,9 +30,10 @@ Supported ISI Versions: 010.002, 010.003, 010.004, 010.005, 010.006, 011.000,
                         017.025, 017.026, 018.000, 018.001, 018.002, 018.003, 
                         018.004, 018.005, 018.006, 018.007, 019.000, 019.001, 
                         019.002, 019.003, 019.004, 019.005, 019.006, 019.007, 
-                        019.008, 019.009, 019.010, 019.011, 019.012, 019.013
+                        019.008, 019.009, 019.010, 019.011, 019.012, 019.013, 
+                        019.014
 
-Copyright (c) Renesas Mobile Corporation. All rights reserved.
+Copyright (c) Nokia Corporation. All rights reserved.
 
 
 
@@ -47,7 +48,7 @@ Copyright (c) Renesas Mobile Corporation. All rights reserved.
 #ifndef GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION
 #define GPDS_ISI_VERSION_Z  19
-#define GPDS_ISI_VERSION_Y  13
+#define GPDS_ISI_VERSION_Y  14
 #endif
 
 #define GPDS_ISI_MIN_VERSION(z,y) \
@@ -521,6 +522,14 @@ typedef uint8 GPDS_DATA_COUNTER_SETTINGS_CONST;
 #define GPDS_DATA_COUNTER_SETTING_BOTH           0x03
 
 /* ----------------------------------------------------------------------- */
+/* Constant Table: GPDS_RB_TEST_MODE_STATUS                                */
+/* ----------------------------------------------------------------------- */
+typedef uint8 GPDS_RB_TEST_MODE_STATUS_CONST;
+
+#define GPDS_TEST_MODE_ACTIVE                    0x01
+#define GPDS_TEST_MODE_INACTIVE                  0x00
+
+/* ----------------------------------------------------------------------- */
 /* Message ID's                                                            */
 /* ----------------------------------------------------------------------- */
 
@@ -583,6 +592,7 @@ typedef uint8 GPDS_DATA_COUNTER_SETTINGS_CONST;
 #define GPDS_DATA_COUNTER_REQ                    0x58
 #define GPDS_DATA_COUNTER_RESP                   0x59
 #define GPDS_DATA_COUNTER_IND                    0x5A
+#define GPDS_RB_TEST_MODE_IND                    0x5B
 
 /* ----------------------------------------------------------------------- */
 /* Subblock ID's                                                           */
@@ -2817,6 +2827,21 @@ typedef struct
     } GPDS_DATA_COUNTER_IND_STR;
 
 #define SIZE_GPDS_DATA_COUNTER_IND_STR   (20*sizeof(uint8) + 2*sizeof(uint16))
+
+
+/* ----------------------------------------------------------------------- */
+/* Message: GPDS_RB_TEST_MODE_IND - Valid from version 019.014             */
+/* ----------------------------------------------------------------------- */
+
+typedef struct
+    {
+    uint8   utid;
+    uint8   msg_id;
+    /* Values from the constant table GPDS_RB_TEST_MODE_STATUS */
+    uint8   test_mode_status;
+    } GPDS_RB_TEST_MODE_IND_STR;
+
+#define SIZE_GPDS_RB_TEST_MODE_IND_STR   sizeof(GPDS_RB_TEST_MODE_IND_STR)
 
 
 
